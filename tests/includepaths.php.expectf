@@ -1,0 +1,8 @@
+Caught SassException in %s/tests/includepaths.php on line 9
+Message: The path %s/i/dont/exist does not exist or is not readable
+#0 %s/tests/includepaths.php(9): Sass->setIncludePaths()
+#1 {main}
+Caught SassException in %s/tests/includepaths.php on line 19
+Message: The path %s/the/final/frontier does not exist or is not readable
+#0 %s/tests/includepaths.php(19): Sass->addIncludePath()
+#1 {main}

@@ -1,0 +1,8 @@
+Caught SassException in %s/tests/compileerror.php on line 4
+Message: Error: invalid top-level expression
+        on line 1 of stdin
+>> asd
+   ^
+
+#0 %s/tests/compileerror.php(4): Sass->compile()
+#1 {main}

@@ -1,0 +1,10 @@
+Caught SassException in %s/tests/options.php on line 4
+Message: This style is not supported.
+#0 %s/tests/options.php(4): Sass->setStyle()
+#1 {main}
+bool(true)
+Caught SassException in %s/tests/options.php on line 15
+Message: The precision has to be greater or equal than 0.
+#0 %s/tests/options.php(15): Sass->setPrecision()
+#1 {main}
+bool(true)
