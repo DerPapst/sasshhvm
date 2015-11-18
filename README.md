@@ -13,7 +13,7 @@ For more information about Sass itself, please visit [http://sass-lang.com](http
 
 ### Building & Installation
 
-Requires HHVM 3.2 or later and either the hhvm source tree (use the variable $HPHP_HOME to point to your hhvm source tree) or the [hhvm-dev package](https://github.com/facebook/hhvm/wiki/Prebuilt-Packages-for-HHVM).
+Requires HHVM 3.6 or later and either the hhvm source tree (use the variable $HPHP_HOME to point to your hhvm source tree) or the [hhvm-dev package](https://github.com/facebook/hhvm/wiki/Prebuilt-Packages-for-HHVM).
 
 Update the submodule with 
 ~~~
@@ -83,8 +83,8 @@ If there's a problem, the extension will throw a `SassException`:
 $sass = new Sass();
 try {
     $css = $sass->compile('asdf');
-} catch (SassException $e) {
+} catch (\SassException $e) {
     // $e->getMessage() - ERROR -- , line 1: invalid top-level expression
-    $css = false;
+    $css = null;
 }
 ```

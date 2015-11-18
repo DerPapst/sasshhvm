@@ -1,8 +1,8 @@
 /*
    +----------------------------------------------------------------------+
-   | HipHop for PHP                                                       |
+   | Integration of libsass for HHVM                                      |
    +----------------------------------------------------------------------+
-   | Copyright (c) 2010-2013 Facebook, Inc. (http://www.facebook.com)     |
+   | Copyright (c) 2015 Alexander Papst                                   |
    +----------------------------------------------------------------------+
    | This source file is subject to version 3.01 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -19,7 +19,7 @@
 #include "hphp/runtime/base/string-util.h"
 #include "hphp/runtime/base/execution-context.h"
 
-#include "lib/libsass/sass_context.h"
+#include "lib/libsass/include/sass.h"
 
 namespace HPHP {
 

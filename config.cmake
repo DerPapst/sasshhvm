@@ -11,6 +11,7 @@ add_custom_target(build_libsass ALL
 
 # now create an imported static target
 add_library(libsass STATIC IMPORTED)
+include_directories(AFTER SYSTEM lib/libsass/include)
 # Import target "libsass" for configuration ""
 set_property(TARGET libsass APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
 set_target_properties(libsass PROPERTIES

@@ -1,17 +1,15 @@
-#! /bin/sh
+#!/bin/bash
 
-if [ "`which hphpize 2>/dev/null`" != "" ]; then
-    # HHVM 3.2.0 or newer
-    hphpize
+if [ "$HPHP_HOME" != "" ]; then
+    HPHPIZE=$HPHP_HOME/hphp/tools/hphpize/hphpize
 else
-    # HHVM older than 3.2.0
-    if [ "$HPHP_HOME" == "" ]; then
-        echo HPHP_HOME environment variable must be set!
-        exit 1
-    fi
-
-    $HPHP_HOME/hphp/tools/hphpize/hphpize
+    HPHPIZE=`which hphpize 2> /dev/null`
 fi
 
-cmake . && make
+if [ ! -e "$HPHPIZE" ]; then
+    echo 'hphpize not found. Try setting the HPHP_HOME environment variable.'
+    exit 1
+fi
+
+$HPHPIZE && cmake . && make
 

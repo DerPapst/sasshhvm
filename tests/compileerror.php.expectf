@@ -1,5 +1,5 @@
 Caught SassException in %s/tests/compileerror.php on line 4
-Message: Error: invalid top-level expression
+Message: Error: Invalid CSS after "asd": expected "{", was ""
         on line 1 of stdin
 >> asd
    ^
