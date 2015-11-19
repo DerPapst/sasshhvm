@@ -9,9 +9,20 @@
  * Copyright (c)2015 Alexander Papst <http://derpapst.org>
  */
 class Sass {
+	/*
+	const STYLE_NESTED = <int>;
+	const STYLE_EXPANDED = <int>;
+	const STYLE_COMPACT = <int>;
+	const STYLE_COMPRESSED = <int>;
+
+	const SYNTAX_SCSS = <int>;
+	const SYNTAX_SASS = <int>;
+	*/
+
 	private array<string> $includePaths = array();
 	private int $precision = 5;
 	private int $style = self::STYLE_NESTED;
+	private int $syntax = self::SYNTAX_SCSS;
 	private bool $sourceComments = false;
 
 	/**
@@ -82,7 +93,7 @@ class Sass {
 	 *  * Sass::STYLE_COMPACT
 	 *  * Sass::STYLE_COMPRESSED
 	 * @param int $style
-	 * @throws SassException - If the style is not supported.
+	 * @throws \InvalidArgumentException - If the style is not supported.
 	 * @return Sass
 	 */
 	final public function setStyle(int $style): Sass {
@@ -90,11 +101,40 @@ class Sass {
 			self::STYLE_NESTED, self::STYLE_EXPANDED,
 			self::STYLE_COMPACT, self::STYLE_COMPRESSED
 		))) {
-			throw new SassException(
+			throw new \InvalidArgumentException(
 				'This style is not supported.', 1435749818
 			);
 		}
 		$this->style = $style;
+		return $this;
+	}
+
+	/**
+	 * Get the currently used syntax type. Default is Sass::SYNTAX_SCSS.
+	 * @return int
+	 */
+	public function getSyntax() {
+		return $this->syntax;
+	}
+
+	/**
+	 * Set the syntax type for the input files/strings.
+	 * Available syntaxes are:
+	 *   * Sass::SYNTAX_SCSS
+	 *   * Sass::SYNTAX_SASS
+	 * @param int $syntax
+	 * @throws \InvalidArgumentException - If the syntax is not supported.
+	 * @return Sass
+	 */
+	final public function setSyntax(int $syntax): Sass {
+		if (!in_array($syntax, array (
+			self::SYNTAX_SCSS, self::SYNTAX_SASS
+		))) {
+			throw new \InvalidArgumentException(
+				'This syntax is not supported.', 1447954833
+			);
+		}
+		$this->syntax = $syntax;
 		return $this;
 	}
 

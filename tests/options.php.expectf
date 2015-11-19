@@ -1,4 +1,4 @@
-Caught SassException in %s/tests/options.php on line 4
+Caught InvalidArgumentException in %s/tests/options.php on line 4
 Message: This style is not supported.
 #0 %s/tests/options.php(4): Sass->setStyle()
 #1 {main}

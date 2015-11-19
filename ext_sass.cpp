@@ -30,6 +30,11 @@ const StaticString s_STYLE_EXPANDED("STYLE_EXPANDED");
 const StaticString s_STYLE_COMPACT("STYLE_COMPACT");
 const StaticString s_STYLE_COMPRESSED("STYLE_COMPRESSED");
 
+const StaticString s_SYNTAX_SCSS("SYNTAX_SCSS");
+const StaticString s_SYNTAX_SASS("SYNTAX_SASS");
+const int64_t i_SYNTAX_SCSS = 1;
+const int64_t i_SYNTAX_SASS = 2;
+
 const StaticString s_SassException("SassException");
 #ifdef __WIN__
 const StaticString s_Glue(";");
@@ -56,7 +61,7 @@ static Object throwSassExceptionObject(const Variant& message, int64_t code) {
 
 static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   struct Sass_Options* opts = sass_context_get_options(ctx);
-  
+
   // All options have been validated in ext_sass.php
   sass_option_set_precision(opts, obj->o_get("precision", true, s_Sass).toInt64Val());
 
@@ -72,6 +77,8 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   if (includeSourceComments) {
     sass_option_set_omit_source_map_url(opts, false);
   }
+
+  sass_option_set_is_indented_syntax_src(opts, obj->o_get("syntax", true, s_Sass).toInt64Val() == i_SYNTAX_SASS);
 }
 
 static String HHVM_METHOD(Sass, compile, const String& source) {
@@ -144,6 +151,13 @@ static class SassExtension : public Extension {
     Native::registerClassConstant<KindOfInt64>(s_Sass.get(),
                                                s_STYLE_COMPRESSED.get(),
                                                SASS_STYLE_COMPRESSED);
+
+    Native::registerClassConstant<KindOfInt64>(s_Sass.get(),
+                                               s_SYNTAX_SCSS.get(),
+                                               i_SYNTAX_SCSS);
+    Native::registerClassConstant<KindOfInt64>(s_Sass.get(),
+                                               s_SYNTAX_SASS.get(),
+                                               i_SYNTAX_SASS);
     loadSystemlib();
   }
 } s_sass_extension;
