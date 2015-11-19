@@ -59,10 +59,18 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   
   // All options have been validated in ext_sass.php
   sass_option_set_precision(opts, obj->o_get("precision", true, s_Sass).toInt64Val());
+
   sass_option_set_output_style(opts, (Sass_Output_Style)obj->o_get("style", true, s_Sass).toInt64Val());
+
   Array includePaths = obj->o_get("includePaths", true, s_Sass).toCArrRef();
   if (!includePaths.empty()) {
     sass_option_set_include_path(opts, StringUtil::Implode(includePaths, s_Glue).c_str());
+  }
+
+  bool includeSourceComments = obj->o_get("sourceComments", true, s_Sass).toBooleanVal();
+  sass_option_set_source_comments(opts, includeSourceComments);
+  if (includeSourceComments) {
+    sass_option_set_omit_source_map_url(opts, false);
   }
 }
 

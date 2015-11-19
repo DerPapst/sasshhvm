@@ -12,7 +12,8 @@ class Sass {
 	private array<string> $includePaths = array();
 	private int $precision = 5;
 	private int $style = self::STYLE_NESTED;
-	
+	private bool $sourceComments = false;
+
 	/**
 	 * Parse a string of Sass; a basic input -> output affair.
 	 * @param string $source - String containing some sass source code.
@@ -21,13 +22,13 @@ class Sass {
 	 */
 	<<__Native>>
 	public function compile(string $source): string;
-	
+
 	/**
 	 * The native implementation of compileFile().
 	 */
 	<<__Native>>
 	final private function compileFileNative(string $fileName): string;
-	
+
 	/**
 	 * Parse a whole file full of Sass and return the css output.
 	 * Only local files without the use of a stream or wrapper are supported.
@@ -54,7 +55,7 @@ class Sass {
 		}
 		return $this->compileFileNative($fileName);
 	}
-	
+
 	/**
 	 * Alias of self::compileFile()
 	 * @param string $fileName
@@ -64,7 +65,7 @@ class Sass {
 	final public function compile_file(string $file_name): string {
 		return $this->compileFile($file_name);
 	}
-	
+
 	/**
 	 * Get the currently used formatting style. Default is Sass::STYLE_NESTED.
 	 * @return int
@@ -72,7 +73,7 @@ class Sass {
 	public function getStyle(): int {
 		return $this->style;
 	}
-	
+
 	/**
 	 * Set the formatting style.
 	 * Available styles are:
@@ -96,7 +97,7 @@ class Sass {
 		$this->style = $style;
 		return $this;
 	}
-	
+
 	/**
 	 * Gets the currently used include paths where the compiler will search for
 	 * included files.
@@ -105,7 +106,7 @@ class Sass {
 	public function getIncludePaths(): array<string> {
 		return $this->includePaths;
 	}
-	
+
 	/**
 	 * Add a path for searching for included files.
 	 * Only local directories without the use of a stream or wrapper
@@ -128,7 +129,7 @@ class Sass {
 		$this->includePaths[] = $includePath;
 		return $this;
 	}
-	
+
 	/**
 	 * Sets the include path list. Any previously set paths will be
 	 * overwritten.
@@ -146,7 +147,7 @@ class Sass {
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get the currently used precision for decimal numbers.
 	 * @return int
@@ -154,7 +155,7 @@ class Sass {
 	public function getPrecision(): int {
 		return $this->precision;
 	}
-	
+
 	/**
 	 * Set the precision that will be used for decimal numbers.
 	 * @param int $precision
@@ -169,7 +170,27 @@ class Sass {
 		$this->precision = $precision;
 		return $this;
 	}
-	
+
+	/**
+	 * Returns whether the compiled css files contain comments
+	 * indicating the corresponding source line.
+	 * @return bool
+	 */
+	public function includesSourceComments(): bool {
+		return $this->includesSourceComments;
+	}
+
+	/**
+	 * Pass true to enable emitting comments in the generated CSS indicating
+	 * the corresponding source line.
+	 * @param bool $sourceComments
+	 * @return Sass
+	 */
+	public function includeSourceComments(bool $sourceComments): Sass {
+		$this->sourceComments = $sourceComments;
+		return $this;
+	}
+
 	/**
 	 * Get the library version of libsass.
 	 * @return string
