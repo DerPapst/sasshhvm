@@ -77,14 +77,26 @@ $sass->addIncludePath('/tmp');
 $css = $sass->compile($source);
 ```
 
+The style of the compiled css can be changed:
+
+```php
+$sass->setStyle(Sass::STYLE_EXPANDED)->setLinefeed("\r\n")->setIndent("\t");
+```
+
+Sass is supported as well.
+
+```php
+$sass->setSyntax(Sass::SYNTAX_SASS);
+```
+
 If there's a problem, the extension will throw a `SassException`:
 
 ```php
 $sass = new Sass();
 try {
     $css = $sass->compile('asdf');
-} catch (\SassException $e) {
-    // $e->getMessage() - ERROR -- , line 1: invalid top-level expression
+} catch (SassException $e) {
+    // $e->getMessage() - Error: Invalid CSS after "asd": expected "{"...
     $css = null;
 }
 ```

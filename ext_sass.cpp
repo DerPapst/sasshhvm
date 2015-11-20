@@ -79,6 +79,13 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   }
 
   sass_option_set_is_indented_syntax_src(opts, obj->o_get("syntax", true, s_Sass).toInt64Val() == i_SYNTAX_SASS);
+
+  if (!obj->o_get("linefeed", true, s_Sass).isNull()) {
+    sass_option_set_linefeed(opts, obj->o_get("linefeed", true, s_Sass).toString().c_str());
+  }
+  if (!obj->o_get("indent", true, s_Sass).isNull()) {
+    sass_option_set_indent(opts, obj->o_get("indent", true, s_Sass).toString().c_str());
+  }
 }
 
 static String HHVM_METHOD(Sass, compile, const String& source) {

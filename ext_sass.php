@@ -24,6 +24,8 @@ class Sass {
 	private int $style = self::STYLE_NESTED;
 	private int $syntax = self::SYNTAX_SCSS;
 	private bool $sourceComments = false;
+	private ?string $linefeed = null;
+	private ?string $indent = null;
 
 	/**
 	 * Parse a string of Sass; a basic input -> output affair.
@@ -152,7 +154,7 @@ class Sass {
 	 * Only local directories without the use of a stream or wrapper
 	 * are supported.
 	 * @param string $includePath - The path to look for further sass files.
-	 * @throws SassException - If the path does not exist or is not readable.
+	 * @throws RuntimeException - If the path does not exist or is not readable.
 	 * @return Sass
 	 */
 	final public function addIncludePath(string $includePath): Sass {
@@ -161,7 +163,7 @@ class Sass {
 			$includePath = getcwd().'/'.$includePath;
 		}
 		if (!is_dir($includePath) || !is_readable($includePath)) {
-			throw new SassException(
+			throw new \RuntimeException(
 				'The path '.$includePath.' does not exist or is not readable',
 				1435748077
 			);
@@ -228,6 +230,46 @@ class Sass {
 	 */
 	public function includeSourceComments(bool $sourceComments): Sass {
 		$this->sourceComments = $sourceComments;
+		return $this;
+	}
+
+	/**
+	 * Get the string that will be used for line feeds in the compiled CSS.
+	 * If null is returned libsass' default will be used.
+	 * @return ?string
+	 */
+	public function getLinefeed(): ?string {
+		return $this->linefeed;
+	}
+
+	/**
+	 * Set the string to be used to for line feeds in the compiled CSS.
+	 * Pass null if you want to use the default from libsass.
+	 * @param ?string $linefeed
+	 * @return Sass
+	 */
+	public function setLinefeed(?string $linefeed): Sass {
+		$this->linefeed = $linefeed;
+		return $this;
+	}
+
+	/**
+	 * Get the string that will be used for indentation in the compiled CSS.
+	 * If null is returned libsass' default will be used.
+	 * @return ?string
+	 */
+	public function getIndent(): ?string {
+		return $this->indent;
+	}
+
+	/**
+	 * Set the string to be used to for indentation in the compiled CSS.
+	 * Pass null if you want to use the default from libsass.
+	 * @param ?string $indent
+	 * @return Sass
+	 */
+	public function setIndent(?string $indent): Sass {
+		$this->indent = $indent;
 		return $this;
 	}
 
