@@ -26,6 +26,7 @@ class Sass {
 	private bool $sourceComments = false;
 	private ?string $linefeed = null;
 	private ?string $indent = null;
+	private bool $embedMap = false;
 
 	/**
 	 * Parse a string of Sass; a basic input -> output affair.
@@ -218,7 +219,7 @@ class Sass {
 	 * indicating the corresponding source line.
 	 * @return bool
 	 */
-	public function includesSourceComments(): bool {
+	public function getIncludesSourceComments(): bool {
 		return $this->includesSourceComments;
 	}
 
@@ -228,9 +229,26 @@ class Sass {
 	 * @param bool $sourceComments
 	 * @return Sass
 	 */
-	public function includeSourceComments(bool $sourceComments): Sass {
+	public function setIncludesSourceComments(bool $sourceComments): Sass {
 		$this->sourceComments = $sourceComments;
 		return $this;
+	}
+
+	/**
+	 * Alias of self::getIncludesSourceComments()
+	 * @return bool
+	 */
+	public function includesSourceComments(): bool {
+		return $this->getIncludesSourceComments();
+	}
+
+	/**
+	 * Alias of self::includeSourceComments()
+	 * @param bool $sourceComments
+	 * @return Sass
+	 */
+	public function includeSourceComments(bool $sourceComments): Sass {
+		return $this->setIncludesSourceComments($sourceComments);
 	}
 
 	/**
@@ -271,6 +289,43 @@ class Sass {
 	public function setIndent(?string $indent): Sass {
 		$this->indent = $indent;
 		return $this;
+	}
+
+	/**
+	 * Returns true if the source mapping url is embedded in the compiled CSS
+	 * as data uri.
+	 * @return bool
+	 */
+	public function getEmbedMap(): bool {
+		return $this->embedMap;
+	}
+
+	/**
+	 * Control if the source mapping url is embedded in the compiled CSS
+	 * as data uri.
+	 * @param bool $embedMap
+	 * @return Sass
+	 */
+	public function setEmbedMap(bool $embedMap): Sass {
+		$this->embedMap = $embedMap;
+		return $this;
+	}
+
+	/**
+	 * Alias of self::getEmbedMap()
+	 * @return bool
+	 */
+	public function isMapEmbedded() {
+		return $this->getEmbedMap();
+	}
+
+	/**
+	 * Alias of self::setEmbedMap()
+	 * @param bool $embedMap
+	 * @return Sass
+	 */
+	public function embedMap(bool $embedMap): Sass {
+		return $this->setEmbedMap($embedMap);
 	}
 
 	/**

@@ -86,6 +86,8 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   if (!obj->o_get("indent", true, s_Sass).isNull()) {
     sass_option_set_indent(opts, obj->o_get("indent", true, s_Sass).toString().c_str());
   }
+
+  sass_option_set_source_map_embed(opts, obj->o_get("embedMap", true, s_Sass).toBooleanVal());
 }
 
 static String HHVM_METHOD(Sass, compile, const String& source) {

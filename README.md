@@ -17,7 +17,7 @@ Requires HHVM 3.6 or later and either the hhvm source tree (use the variable $HP
 
 Update the submodule with 
 ~~~
-git submodule update --init --recursive`
+git submodule update --init --recursive
 ~~~
 and then run
 
@@ -83,7 +83,7 @@ The style of the compiled css can be changed:
 $sass->setStyle(Sass::STYLE_EXPANDED)->setLinefeed("\r\n")->setIndent("\t");
 ```
 
-Sass is supported as well.
+Sass syntax is supported as well.
 
 ```php
 $sass->setSyntax(Sass::SYNTAX_SASS);
