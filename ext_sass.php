@@ -1,342 +1,201 @@
 <?hh
 
 /**
- * Sass
- * HHVM bindings to libsass - fast, native Sass parsing in HHVM!
+ * HHVM bindings to libsass - Fast, native Sass compiling in HHVM!
+ *
+ * For a more detailed descriptions of all methods see Sass.hhi
  *
  * https://github.com/derpapst/sasshhvm
  * Based on https://github.com/sensational/sassphp/
  * Copyright (c)2015 Alexander Papst <http://derpapst.org>
  */
-class Sass {
-	/*
-	const STYLE_NESTED = <int>;
-	const STYLE_EXPANDED = <int>;
-	const STYLE_COMPACT = <int>;
-	const STYLE_COMPRESSED = <int>;
+class Sass
+{
+    private array<string> $includePaths = array();
+    private int $precision = 5;
+    private int $style = self::STYLE_NESTED;
+    private int $syntax = self::SYNTAX_SCSS;
+    private bool $sourceComments = false;
+    private ?string $linefeed = null;
+    private ?string $indent = null;
+    private bool $embedMap = false;
 
-	const SYNTAX_SCSS = <int>;
-	const SYNTAX_SASS = <int>;
-	*/
+    <<__Native>>
+    final public function compile(string $source): string;
 
-	private array<string> $includePaths = array();
-	private int $precision = 5;
-	private int $style = self::STYLE_NESTED;
-	private int $syntax = self::SYNTAX_SCSS;
-	private bool $sourceComments = false;
-	private ?string $linefeed = null;
-	private ?string $indent = null;
-	private bool $embedMap = false;
+    <<__Native>>
+    final private function compileFileNative(string $fileName): string;
 
-	/**
-	 * Parse a string of Sass; a basic input -> output affair.
-	 * @param string $source - String containing some sass source code.
-	 * @throws SassException - If the source is invalid.
-	 * @return string - Compiled css code
-	 */
-	<<__Native>>
-	public function compile(string $source): string;
+    final public function compileFile(string $fileName): string
+    {
+        if (empty($fileName)) {
+            throw new SassException(
+                'The file name may not be empty.', 1435750241
+            );
+        }
+        // Make the file path absolute
+        if (substr($fileName, 0, 1) !== '/') {
+            $fileName = getcwd().'/'.$fileName;
+        }
+        if (!file_exists($fileName) || !is_readable($fileName)) {
+            throw new SassException(
+                'The file can not be read.', 1435750470
+            );
+        }
+        return $this->compileFileNative($fileName);
+    }
 
-	/**
-	 * The native implementation of compileFile().
-	 */
-	<<__Native>>
-	final private function compileFileNative(string $fileName): string;
+    public function getStyle(): int
+    {
+        return $this->style;
+    }
 
-	/**
-	 * Parse a whole file full of Sass and return the css output.
-	 * Only local files without the use of a stream or wrapper are supported.
-	 * @param string $fileName
-	 *    String containing the file name of a sass source code file.
-	 * @throws SassException
-	 *    If the file can not be read or source is invalid.
-	 * @return string - Compiled css code
-	 */
-	final public function compileFile(string $fileName): string {
-		if (empty($fileName)) {
-			throw new SassException(
-				'The file name may not be empty.', 1435750241
-			);
-		}
-		// Make  the file path absolute
-		if (substr($fileName, 0, 1) !== '/') {
-			$fileName = getcwd().'/'.$fileName;
-		}
-		if (!file_exists($fileName) || !is_readable($fileName)) {
-			throw new SassException(
-				'The file can not be read.', 1435750470
-			);
-		}
-		return $this->compileFileNative($fileName);
-	}
+    final public function setStyle(int $style): this
+    {
+        if (!in_array($style, array (
+            self::STYLE_NESTED, self::STYLE_EXPANDED,
+            self::STYLE_COMPACT, self::STYLE_COMPRESSED
+        ))) {
+            throw new \InvalidArgumentException(
+                'This style is not supported.', 1435749818
+            );
+        }
+        $this->style = $style;
+        return $this;
+    }
 
-	/**
-	 * Alias of self::compileFile()
-	 * @param string $fileName
-	 *    String containing the file name of a sass source code file.
-	 * @return string - Compiled css code
-	 */
-	final public function compile_file(string $file_name): string {
-		return $this->compileFile($file_name);
-	}
+    public function getSyntax()
+    {
+        return $this->syntax;
+    }
 
-	/**
-	 * Get the currently used formatting style. Default is Sass::STYLE_NESTED.
-	 * @return int
-	 */
-	public function getStyle(): int {
-		return $this->style;
-	}
+    final public function setSyntax(int $syntax): this
+    {
+        if (!in_array($syntax, array (
+            self::SYNTAX_SCSS, self::SYNTAX_SASS
+        ))) {
+            throw new \InvalidArgumentException(
+                'This syntax is not supported.', 1447954833
+            );
+        }
+        $this->syntax = $syntax;
+        return $this;
+    }
 
-	/**
-	 * Set the formatting style.
-	 * Available styles are:
-	 *  * Sass::STYLE_NESTED
-	 *  * Sass::STYLE_EXPANDED
-	 *  * Sass::STYLE_COMPACT
-	 *  * Sass::STYLE_COMPRESSED
-	 * @param int $style
-	 * @throws \InvalidArgumentException - If the style is not supported.
-	 * @return Sass
-	 */
-	final public function setStyle(int $style): Sass {
-		if (!in_array($style, array (
-			self::STYLE_NESTED, self::STYLE_EXPANDED,
-			self::STYLE_COMPACT, self::STYLE_COMPRESSED
-		))) {
-			throw new \InvalidArgumentException(
-				'This style is not supported.', 1435749818
-			);
-		}
-		$this->style = $style;
-		return $this;
-	}
+    public function getIncludePaths(): array<string>
+    {
+        return $this->includePaths;
+    }
 
-	/**
-	 * Get the currently used syntax type. Default is Sass::SYNTAX_SCSS.
-	 * @return int
-	 */
-	public function getSyntax() {
-		return $this->syntax;
-	}
+    final public function addIncludePath(string $includePath): this
+    {
+        // Make the file path absolute
+        if (substr($includePath, 0, 1) !== '/') {
+            $includePath = getcwd().'/'.$includePath;
+        }
+        if (!is_dir($includePath) || !is_readable($includePath)) {
+            throw new \RuntimeException(
+                'The path '.$includePath.' does not exist or is not readable',
+                1435748077
+            );
+        }
+        $this->includePaths[] = $includePath;
+        return $this;
+    }
 
-	/**
-	 * Set the syntax type for the input files/strings.
-	 * Available syntaxes are:
-	 *   * Sass::SYNTAX_SCSS
-	 *   * Sass::SYNTAX_SASS
-	 * @param int $syntax
-	 * @throws \InvalidArgumentException - If the syntax is not supported.
-	 * @return Sass
-	 */
-	final public function setSyntax(int $syntax): Sass {
-		if (!in_array($syntax, array (
-			self::SYNTAX_SCSS, self::SYNTAX_SASS
-		))) {
-			throw new \InvalidArgumentException(
-				'This syntax is not supported.', 1447954833
-			);
-		}
-		$this->syntax = $syntax;
-		return $this;
-	}
+    final public function setIncludePaths(array<string> $includePaths): this
+    {
+        $this->includePaths = array();
+        foreach ($includePaths as $idx => $includePath) {
+            $this->addIncludePath($includePath);
+        }
+        return $this;
+    }
 
-	/**
-	 * Gets the currently used include paths where the compiler will search for
-	 * included files.
-	 * @return array
-	 */
-	public function getIncludePaths(): array<string> {
-		return $this->includePaths;
-	}
+    public function getPrecision(): int
+    {
+        return $this->precision;
+    }
 
-	/**
-	 * Add a path for searching for included files.
-	 * Only local directories without the use of a stream or wrapper
-	 * are supported.
-	 * @param string $includePath - The path to look for further sass files.
-	 * @throws RuntimeException - If the path does not exist or is not readable.
-	 * @return Sass
-	 */
-	final public function addIncludePath(string $includePath): Sass {
-		// Make  the file path absolute
-		if (substr($includePath, 0, 1) !== '/') {
-			$includePath = getcwd().'/'.$includePath;
-		}
-		if (!is_dir($includePath) || !is_readable($includePath)) {
-			throw new \RuntimeException(
-				'The path '.$includePath.' does not exist or is not readable',
-				1435748077
-			);
-		}
-		$this->includePaths[] = $includePath;
-		return $this;
-	}
+    final public function setPrecision(int $precision): this
+    {
+        if ($precision < 0) {
+            throw new SassException(
+                'The precision has to be greater or equal than 0.', 1435750706
+            );
+        }
+        $this->precision = $precision;
+        return $this;
+    }
 
-	/**
-	 * Sets the include path list. Any previously set paths will be
-	 * overwritten.
-	 * Only local directories without the use of a stream or wrapper
-	 * are supported.
-	 * @param array<string> $includePaths
-	 *     The paths to look for further sass files.
-	 * @throws SassException - If one path does not exist or is not readable.
-	 * @return Sass
-	 */
-	final public function setIncludePaths(array<string> $includePaths): Sass {
-		$this->includePaths = array();
-		foreach ($includePaths as $idx => $includePath) {
-			$this->addIncludePath($includePath);
-		}
-		return $this;
-	}
+    public function getIncludesSourceComments(): bool
+    {
+        return $this->includesSourceComments;
+    }
 
-	/**
-	 * Get the currently used precision for decimal numbers.
-	 * @return int
-	 */
-	public function getPrecision(): int {
-		return $this->precision;
-	}
+    final public function setIncludesSourceComments(bool $sourceComments): this
+    {
+        $this->sourceComments = $sourceComments;
+        return $this;
+    }
 
-	/**
-	 * Set the precision that will be used for decimal numbers.
-	 * @param int $precision
-	 * @return Sass
-	 */
-	final public function setPrecision(int $precision): Sass {
-		if ($precision < 0) {
-			throw new SassException(
-				'The precision has to be greater or equal than 0.', 1435750706
-			);
-		}
-		$this->precision = $precision;
-		return $this;
-	}
+    public function includesSourceComments(): bool
+    {
+        return $this->getIncludesSourceComments();
+    }
 
-	/**
-	 * Returns whether the compiled css files contain comments
-	 * indicating the corresponding source line.
-	 * @return bool
-	 */
-	public function getIncludesSourceComments(): bool {
-		return $this->includesSourceComments;
-	}
+    final public function includeSourceComments(bool $sourceComments): this
+    {
+        return $this->setIncludesSourceComments($sourceComments);
+    }
 
-	/**
-	 * Pass true to enable emitting comments in the generated CSS indicating
-	 * the corresponding source line.
-	 * @param bool $sourceComments
-	 * @return Sass
-	 */
-	public function setIncludesSourceComments(bool $sourceComments): Sass {
-		$this->sourceComments = $sourceComments;
-		return $this;
-	}
+    public function getLinefeed(): ?string
+    {
+        return $this->linefeed;
+    }
 
-	/**
-	 * Alias of self::getIncludesSourceComments()
-	 * @return bool
-	 */
-	public function includesSourceComments(): bool {
-		return $this->getIncludesSourceComments();
-	}
+    final public function setLinefeed(?string $linefeed): this
+    {
+        $this->linefeed = $linefeed;
+        return $this;
+    }
 
-	/**
-	 * Alias of self::includeSourceComments()
-	 * @param bool $sourceComments
-	 * @return Sass
-	 */
-	public function includeSourceComments(bool $sourceComments): Sass {
-		return $this->setIncludesSourceComments($sourceComments);
-	}
+    public function getIndent(): ?string
+    {
+        return $this->indent;
+    }
 
-	/**
-	 * Get the string that will be used for line feeds in the compiled CSS.
-	 * If null is returned libsass' default will be used.
-	 * @return ?string
-	 */
-	public function getLinefeed(): ?string {
-		return $this->linefeed;
-	}
+    final public function setIndent(?string $indent): this
+    {
+        $this->indent = $indent;
+        return $this;
+    }
 
-	/**
-	 * Set the string to be used to for line feeds in the compiled CSS.
-	 * Pass null if you want to use the default from libsass.
-	 * @param ?string $linefeed
-	 * @return Sass
-	 */
-	public function setLinefeed(?string $linefeed): Sass {
-		$this->linefeed = $linefeed;
-		return $this;
-	}
+    public function getEmbedMap(): bool
+    {
+        return $this->embedMap;
+    }
 
-	/**
-	 * Get the string that will be used for indentation in the compiled CSS.
-	 * If null is returned libsass' default will be used.
-	 * @return ?string
-	 */
-	public function getIndent(): ?string {
-		return $this->indent;
-	}
+    final public function setEmbedMap(bool $embedMap): this
+    {
+        $this->embedMap = $embedMap;
+        return $this;
+    }
 
-	/**
-	 * Set the string to be used to for indentation in the compiled CSS.
-	 * Pass null if you want to use the default from libsass.
-	 * @param ?string $indent
-	 * @return Sass
-	 */
-	public function setIndent(?string $indent): Sass {
-		$this->indent = $indent;
-		return $this;
-	}
+    public function isMapEmbedded(): bool
+    {
+        return $this->getEmbedMap();
+    }
 
-	/**
-	 * Returns true if the source mapping url is embedded in the compiled CSS
-	 * as data uri.
-	 * @return bool
-	 */
-	public function getEmbedMap(): bool {
-		return $this->embedMap;
-	}
+    final public function embedMap(bool $embedMap): this
+    {
+        return $this->setEmbedMap($embedMap);
+    }
 
-	/**
-	 * Control if the source mapping url is embedded in the compiled CSS
-	 * as data uri.
-	 * @param bool $embedMap
-	 * @return Sass
-	 */
-	public function setEmbedMap(bool $embedMap): Sass {
-		$this->embedMap = $embedMap;
-		return $this;
-	}
-
-	/**
-	 * Alias of self::getEmbedMap()
-	 * @return bool
-	 */
-	public function isMapEmbedded() {
-		return $this->getEmbedMap();
-	}
-
-	/**
-	 * Alias of self::setEmbedMap()
-	 * @param bool $embedMap
-	 * @return Sass
-	 */
-	public function embedMap(bool $embedMap): Sass {
-		return $this->setEmbedMap($embedMap);
-	}
-
-	/**
-	 * Get the library version of libsass.
-	 * @return string
-	 */
-	<<__Native>>
-	final public static function getLibraryVersion(): string;
+    <<__Native>>
+    final public static function getLibraryVersion(): string;
 }
 
-/**
- * Exception for Sass.
- */
-class SassException extends Exception { }
+class SassException extends Exception
+{
+}

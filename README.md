@@ -55,7 +55,7 @@ HPHP_HOME=/path/to/hhvm/source ./test.sh
 
 ## Usage
 
-This extension has a very simple API. You can find the entire API [here](ext_sass.php).
+This extension has a very simple API. You can find the entire API [here](Sass.hhi).
 
 ```php
 $sass = new Sass();

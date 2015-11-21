@@ -1,8 +1,9 @@
-Caught SassException in %s/tests/compileerror.php on line 4
+Caught SassException in %s/tests/compileerror.php on line 7
 Message: Error: Invalid CSS after "asd": expected "{", was ""
         on line 1 of stdin
 >> asd
    ^
 
-#0 %s/tests/compileerror.php(4): Sass->compile()
-#1 {main}
+#0 %s/tests/compileerror.php(7): Sass->compile()
+#1 %s/tests/compileerror.php(13): testCompileError()
+#2 {main}
