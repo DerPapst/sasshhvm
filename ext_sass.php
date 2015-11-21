@@ -236,6 +236,65 @@ class Sass
 
 class SassException extends Exception
 {
+    private ?string $string = null; // __toString cache
+
+    protected ?string $sourceFile = null;
+    protected ?int $sourceLine = null;
+    protected ?int $sourceColumn = null;
+    protected ?string $formattedMessage = null;
+
+    public function __construct(
+        ?string $message = null,
+        int $code = 0,
+        ?string $sourceFile = null,
+        ?int $sourceLine = null,
+        ?int $sourceColumn = null,
+        ?string $formattedMessage = null,
+        ?Exception $previous = null
+    ) {
+        parent::__construct($message, $code, $previous);
+        $this->sourceFile = $sourceFile;
+        $this->sourceLine = $sourceLine;
+        $this->sourceColumn = $sourceColumn;
+        $this->formattedMessage = $formattedMessage;
+    }
+
+    public function getSourceFile(): ?string {
+        return $this->sourceFile;
+    }
+
+    public function getSourceLine(): ?int {
+        return $this->sourceLine;
+    }
+
+    public function getSourceColumn(): ?int {
+        return $this->sourceColumn;
+    }
+
+    public function getFormattedMessage(): ?string {
+        return $this->formattedMessage;
+    }
+
+    public function __toString(): string {
+        if ($this->string === null) {
+            $this->string = 'exception \''.get_class($this).'\' with message \''
+                .$this->message.'\' in '.$this->file.':'.$this->line."\n";
+            if (!is_null($this->sourceFile)) {
+                $this->string .= 'Source File: '.$this->sourceFile."\n";
+            }
+            if (!is_null($this->sourceLine)) {
+                $this->string .= 'Source Line: '.$this->sourceLine."\n";
+            }
+            if (!is_null($this->sourceColumn)) {
+                $this->string .= 'Source Column: '.$this->sourceColumn."\n";
+            }
+            if (!is_null($this->formattedMessage)) {
+                $this->string .= "Full message:\n".$this->formattedMessage."\n";
+            }
+            $this->string .= "Stack trace:\n".$this->getTraceAsString();
+        }
+        return $this->string;
+    }
 }
 
 type SassResonse = shape('css' => string, 'map' => string);

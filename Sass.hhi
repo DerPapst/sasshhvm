@@ -245,6 +245,61 @@ class Sass
  */
 class SassException extends Exception
 {
+    /**
+     * Create a new instance of SassException.
+     * @param ?string $message
+     * @param int $code
+     * @param ?string $sourceFile
+     *    The file name of the scss file which contained the error.
+     * @param ?int $sourceLine
+     *    The line where the error occured during compilation.
+     * @param ?int $sourceColumn
+     *    The column where the error occured during compilation.
+     * @param ?string $formattedMessage
+     *    The complete message formatted to show the exact position of
+     *    the compilation error.
+     * @param ?Exception $previous
+     */
+    public function __construct(
+        ?string $message = null,
+        int $code = 0,
+        ?string $sourceFile = null,
+        ?int $sourceLine = null,
+        ?int $sourceColumn = null,
+        ?string $formattedMessage = null,
+        ?Exception $previous = null
+    );
+
+    /**
+     * Get the path to the file that caused the compilation error.
+     * @return ?string
+     */
+    public function getSourceFile(): ?string;
+
+    /**
+     * Get the line in the file that caused the compilation error.
+     * @return ?int
+     */
+    public function getSourceLine(): ?int;
+
+    /**
+     * Get the column in the file that caused the compilation error.
+     * @return ?int
+     */
+    public function getSourceColumn(): ?int;
+
+    /**
+     * Get the complete formatted message that shows the exact position
+     * of the compilation error.
+     * @return ?string
+     */
+    public function getFormattedMessage(): ?string;
+
+    /**
+     * Format the exception as a string for display.
+     * @return string
+     */
+    public function __toString(): string;
 }
 
 /**

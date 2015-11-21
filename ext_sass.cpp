@@ -18,6 +18,7 @@
 #include "hphp/runtime/base/array-init.h"
 #include "hphp/runtime/base/string-util.h"
 #include "hphp/runtime/base/execution-context.h"
+#include "hphp/runtime/ext/json/ext_json.h"
 
 #include "lib/libsass/include/sass.h"
 
@@ -45,9 +46,15 @@ const StaticString s_Glue(",");
 const StaticString s_SassResponse_css("css");
 const StaticString s_SassResponse_map("map");
 
+const StaticString s_JsonError_file("file");
+const StaticString s_JsonError_line("line");
+const StaticString s_JsonError_column("column");
+const StaticString s_JsonError_message("message");
+const StaticString s_JsonError_formatted("formatted");
+
 
 static Class* c_SassException = nullptr;
-static Object throwSassExceptionObject(const Variant& message, int64_t code) {
+static Object throwSassExceptionObject(const String& message, const String& jsonMessage, int64_t code) {
   if (!c_SassException) {
     c_SassException = Unit::lookupClass(s_SassException.get());
     assert(c_SassException);
@@ -55,10 +62,42 @@ static Object throwSassExceptionObject(const Variant& message, int64_t code) {
 
   Object obj{c_SassException};
   TypedValue ret;
-  g_context->invokeFunc(&ret,
-                        c_SassException->getCtor(),
-                        make_packed_array(message, code),
-                        obj.get());
+  Array exParams;
+
+  // decode the json message and prefer that if it is complete.
+  Variant jres = HHVM_FN(json_decode)(jsonMessage, true);
+  if (jres.isArray()) {
+    Array jmesg = jres.toArray();
+    exParams.set(0,
+                 jmesg.exists(s_JsonError_message) && !jmesg[s_JsonError_message].isNull()
+                     ? jmesg[s_JsonError_message].toString()
+                     : message);
+    exParams.set(1, code);
+    if (jmesg.exists(s_JsonError_file) && !jmesg[s_JsonError_file].isNull()) {
+      exParams.set(2, jmesg[s_JsonError_file].toString());
+    } else {
+      exParams.set(2, null_string);
+    }
+    if (jmesg.exists(s_JsonError_line) && !jmesg[s_JsonError_line].isNull()) {
+      exParams.set(3, Variant(jmesg[s_JsonError_line].toInt64()));
+    } else {
+      exParams.set(3, null_variant);
+    }
+    if (jmesg.exists(s_JsonError_column) && !jmesg[s_JsonError_column].isNull()) {
+      exParams.set(4, Variant(jmesg[s_JsonError_column].toInt64()));
+    } else {
+      exParams.set(4, null_variant);
+    }
+    if (jmesg.exists(s_JsonError_formatted) && !jmesg[s_JsonError_formatted].isNull()) {
+      exParams.set(5, jmesg[s_JsonError_formatted].toString());
+    } else {
+      exParams.set(5, null_string);
+    }
+  } else {
+    exParams = make_packed_array(message, code);
+  }
+
+  g_context->invokeFunc(&ret, c_SassException->getCtor(), exParams, obj.get());
   tvRefcountedDecRef(&ret);
   throw obj;
 }
@@ -110,14 +149,15 @@ static String HHVM_METHOD(Sass, compile, const String& source) {
   // Check the context for any errors...
   if (status != 0) {
     String exMsg = String::FromCStr(sass_context_get_error_message(ctx));
+    String exJson = String::FromCStr(sass_context_get_error_json(ctx));
     sass_delete_data_context(data_context);
-    
-    throwSassExceptionObject(exMsg, status);
+
+    throwSassExceptionObject(exMsg, exJson, status);
   }
-  
+
   String rt = String::FromCStr(sass_context_get_output_string(ctx));
   sass_delete_data_context(data_context);
-  
+
   return rt;
 }
 
@@ -133,9 +173,10 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
   // Check the context for any errors...
   if (status != 0) {
     String exMsg = String::FromCStr(sass_context_get_error_message(ctx));
+    String exJson = String::FromCStr(sass_context_get_error_json(ctx));
     sass_delete_file_context(file_ctx);
-    
-    throwSassExceptionObject(exMsg, status);
+
+    throwSassExceptionObject(exMsg, exJson, status);
   }
 
   String rt = String::FromCStr(sass_context_get_output_string(ctx));
@@ -161,9 +202,10 @@ static Array HHVM_METHOD(Sass, compileFileWithMapNative, const String& file, con
   // Check the context for any errors...
   if (status != 0) {
     String exMsg = String::FromCStr(sass_context_get_error_message(ctx));
+    String exJson = String::FromCStr(sass_context_get_error_json(ctx));
     sass_delete_file_context(file_ctx);
 
-    throwSassExceptionObject(exMsg, status);
+    throwSassExceptionObject(exMsg, exJson, status);
   }
 
   Array response = Array::Create();
@@ -187,7 +229,7 @@ static class SassExtension : public Extension {
     HHVM_ME(Sass, compileFileNative);
     HHVM_ME(Sass, compileFileWithMapNative);
     HHVM_STATIC_ME(Sass, getLibraryVersion);
-    
+
     Native::registerClassConstant<KindOfInt64>(s_Sass.get(),
                                                s_STYLE_NESTED.get(),
                                                SASS_STYLE_NESTED);

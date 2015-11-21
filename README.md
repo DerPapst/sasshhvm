@@ -66,7 +66,7 @@ You can compile a file with `compileFile()`:
 
 ```php
 $sass = new Sass();
-$css = $sass->compileFile($source);
+$css = $sass->compileFile($file);
 ```
 
 You can set the include path for the library to use:
@@ -89,14 +89,52 @@ Sass syntax is supported as well.
 $sass->setSyntax(Sass::SYNTAX_SASS);
 ```
 
-If there's a problem, the extension will throw a `SassException`:
+### Maps
+
+There are 2 ways to generate maps.
+
+You can embed them in the compiled css as data uri ...
+
+```php
+$css = $sass->embedMap(true)->compile($source);
+```
+
+or the map can be generated as a separate file as well.
+
+```php
+$cssAndMap = $sass->compileFileWithMap($file);
+// Or with an alternative map file name ...
+// The file won't be written to the filesystem.
+$cssAndMap = $sass->compileFileWithMap($file, $mapfile);
+```
+
+`$cssAndMap` is a [shape](http://docs.hhvm.com/manual/en/hack.shapes.php) (an array for the runtime) containing the elements "css" and "map", where "css" contains the compiled css (duh) and "map" contains the source map output.
+
+The sourceRoot property of the map files can be set with:
+
+```php
+$css = $sass->setSourceRoot('/herp/derp/');
+```
+
+### Errors
+
+If there's a problem with compiling your SCSS or Sass, the extension will throw a `SassException`:
 
 ```php
 $sass = new Sass();
 try {
     $css = $sass->compile('asdf');
 } catch (SassException $e) {
-    // $e->getMessage() - Error: Invalid CSS after "asd": expected "{"...
+    // $e->getMessage() --> 'Invalid CSS after "asdf": expected "{", was ""'
     $css = null;
 }
+```
+
+`SassException` has some additional methods to get more information about the compilation error like the sources file name, line and column number and a formatted error message.
+
+```php
+$e->getSourceFile();
+$e->getSourceLine();
+$e->getSourceColumn();
+$e->getFormattedMessage();
 ```

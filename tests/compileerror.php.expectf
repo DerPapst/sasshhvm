@@ -1,9 +1,39 @@
-Caught SassException in %s/tests/compileerror.php on line 7
-Message: Error: Invalid CSS after "asd": expected "{", was ""
-        on line 1 of stdin
->> asd
-   ^
+Caught exception 'SassException' with message 'property "asd" must be followed by a ':'' in %s/tests/compileerror.php:8
+Source File: stdin
+Source Line: 4
+Source Column: 9
+Full message:
+Error: property "asd" must be followed by a ':'
+        on line 4 of stdin
+>>         asd
+   --------^
 
-#0 %s/tests/compileerror.php(7): Sass->compile()
-#1 %s/tests/compileerror.php(13): testCompileError()
+Stack trace:
+#0 %s/tests/compileerror.php(8): Sass->compile()
+#1 %s/tests/compileerror.php(31): testCompileErrorString()
+#2 {main}
+
+string(5) "stdin"
+int(4)
+int(9)
+string(103) "Error: property "asd" must be followed by a ':'
+        on line 4 of stdin
+>>         asd
+   --------^
+"
+
+
+Caught exception 'SassException' with message 'Undefined variable: "$iDoNotExist".' in %s/tests/compileerror.php:25
+Source File: %s/tests/sass/more/borked.scss
+Source Line: 3
+Source Column: 9
+Full message:
+Error: Undefined variable: "$iDoNotExist".
+        on line 3 of tests/sass/more/borked.scss
+>> 	color: $iDoNotExist;
+   --------^
+
+Stack trace:
+#0 %s/tests/compileerror.php(25): Sass->compileFile()
+#1 %s/tests/compileerror.php(32): testCompileErrorFile()
 #2 {main}
