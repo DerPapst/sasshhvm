@@ -42,6 +42,10 @@ const StaticString s_Glue(";");
 const StaticString s_Glue(",");
 #endif
 
+const StaticString s_SassResponse_css("css");
+const StaticString s_SassResponse_map("map");
+
+
 static Class* c_SassException = nullptr;
 static Object throwSassExceptionObject(const Variant& message, int64_t code) {
   if (!c_SassException) {
@@ -88,6 +92,10 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   }
 
   sass_option_set_source_map_embed(opts, obj->o_get("embedMap", true, s_Sass).toBooleanVal());
+
+  if (!obj->o_get("sourceRoot", true, s_Sass).isNull()) {
+    sass_option_set_source_map_root(opts, obj->o_get("sourceRoot", true, s_Sass).toString().c_str());
+  }
 }
 
 static String HHVM_METHOD(Sass, compile, const String& source) {
@@ -129,11 +137,42 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     
     throwSassExceptionObject(exMsg, status);
   }
-  
+
   String rt = String::FromCStr(sass_context_get_output_string(ctx));
   sass_delete_file_context(file_ctx);
-  
+
   return rt;
+}
+
+static Array HHVM_METHOD(Sass, compileFileWithMapNative, const String& file, const String& mapfile) {
+  // Create a new sass_context
+  struct Sass_File_Context* file_ctx = sass_make_file_context(file.c_str());
+  struct Sass_Context* ctx = sass_file_context_get_context(file_ctx);
+  struct Sass_Options* opts = sass_context_get_options(ctx);
+
+  set_options(this_, ctx);
+
+  sass_option_set_omit_source_map_url(opts, false);
+  sass_option_set_source_map_contents(opts, true);
+  sass_option_set_source_map_file(opts, mapfile.c_str());
+
+  int64_t status = sass_compile_file_context(file_ctx);
+
+  // Check the context for any errors...
+  if (status != 0) {
+    String exMsg = String::FromCStr(sass_context_get_error_message(ctx));
+    sass_delete_file_context(file_ctx);
+
+    throwSassExceptionObject(exMsg, status);
+  }
+
+  Array response = Array::Create();
+  response.set(s_SassResponse_css, String::FromCStr(sass_context_get_output_string(ctx)));
+  response.set(s_SassResponse_map, String::FromCStr(sass_context_get_source_map_string(ctx)));
+
+  sass_delete_file_context(file_ctx);
+
+  return response;
 }
 
 static String HHVM_STATIC_METHOD(Sass, getLibraryVersion) {
@@ -146,6 +185,7 @@ static class SassExtension : public Extension {
   virtual void moduleInit() {
     HHVM_ME(Sass, compile);
     HHVM_ME(Sass, compileFileNative);
+    HHVM_ME(Sass, compileFileWithMapNative);
     HHVM_STATIC_ME(Sass, getLibraryVersion);
     
     Native::registerClassConstant<KindOfInt64>(s_Sass.get(),

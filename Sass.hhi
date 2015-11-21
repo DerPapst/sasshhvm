@@ -41,6 +41,21 @@ class Sass
     final public function compileFile(string $fileName): string;
 
     /**
+     * Compile a file containing valid scss to css including the corresponding
+     * map file contents.
+     * Only local files without the use of a stream or wrapper are supported.
+     * The content for a matching map file will be returned as well.
+     * @param string $fileName
+     *    String containing the path to a scss source code file.
+     * @throws SassException
+     *    If the file can not be read or source is invalid.
+     * @return SassResonse
+     *    A shape containing the indexes 'css' which contains the compiled
+     *    css and 'map' which contains the map contents.
+     */
+    final public function compileFileWithMap(string $fileName, ?string $mapFileName = null): SassResonse;
+
+    /**
      * Get the currently used formatting style. Default is Sass::STYLE_NESTED.
      * @return int
      */
@@ -205,6 +220,20 @@ class Sass
     final public function embedMap(bool $embedMap): this;
 
     /**
+     * Get the pass-through for the sourceRoot property.
+     * If null is returned the sourceRoot property is not populated.
+     * @return ?string
+     */
+    public function getSourceRoot(): ?string;
+
+    /**
+     * Set the pass-through for the sourceRoot property.
+     * Pass null if you do not want to populate the sourceRoot property.
+     * @return self
+     */
+    final public function setSourceRoot(?string $sourceRoot): this;
+
+    /**
      * Get the library version of libsass.
      * @return string
      */
@@ -217,3 +246,8 @@ class Sass
 class SassException extends Exception
 {
 }
+
+/**
+ * Return type for Sass::compile*WithMap();
+ */
+type SassResonse = shape('css' => string, 'map' => string);

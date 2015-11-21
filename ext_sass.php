@@ -19,6 +19,7 @@ class Sass
     private ?string $linefeed = null;
     private ?string $indent = null;
     private bool $embedMap = false;
+    private ?string $sourceRoot = null;
 
     <<__Native>>
     final public function compile(string $source): string;
@@ -43,6 +44,32 @@ class Sass
             );
         }
         return $this->compileFileNative($fileName);
+    }
+
+    <<__Native>>
+    final private function compileFileWithMapNative(string $fileName, string $mapFileName): array;
+
+    final public function compileFileWithMap(string $fileName, ?string $mapFileName = null): SassResonse
+    {
+        if (empty($fileName)) {
+            throw new SassException(
+                'The file name may not be empty.', 1435750241
+            );
+        }
+        // Make  the file path absolute
+        if (substr($fileName, 0, 1) !== '/') {
+            $fileName = getcwd().'/'.$fileName;
+        }
+        if (!file_exists($fileName) || !is_readable($fileName)) {
+            throw new SassException(
+                'The file can not be read.', 1435750470
+            );
+        }
+        $mapFileName = empty($mapFileName) ? $fileName.'.map' : $mapFileName;
+
+        $response = $this->compileFileWithMapNative($fileName, $mapFileName);
+
+        return shape('css' => $response['css'], 'map' => $response['map']);
     }
 
     public function getStyle(): int
@@ -192,6 +219,17 @@ class Sass
         return $this->setEmbedMap($embedMap);
     }
 
+    public function getSourceRoot(): ?string
+    {
+        return $this->sourceRoot;
+    }
+
+    final public function setSourceRoot(?string $sourceRoot): this
+    {
+        $this->sourceRoot = $sourceRoot;
+        return $this;
+    }
+
     <<__Native>>
     final public static function getLibraryVersion(): string;
 }
@@ -199,3 +237,5 @@ class Sass
 class SassException extends Exception
 {
 }
+
+type SassResonse = shape('css' => string, 'map' => string);
