@@ -1,0 +1,62 @@
+convert(Sass\Types\SassNull):
+    null
+convert(Sass\Types\SassNumber):
+    5px
+convert(Sass\Types\SassNumber):
+    35.5%
+convert(Sass\Types\SassString):
+    herpderp
+convert(Sass\Types\SassString):
+    "herp derp"
+convert(Sass\Types\SassBoolean):
+    true
+convert(Sass\Types\SassColor):
+    rgba(231, 45, 189, 0.9)
+convert(Sass\Types\SassColor):
+    rgb(127, 0, 255)
+convert(Sass\Types\SassList):
+    (false, rgb(51, 68, 85), "foo")
+convert(Sass\Types\SassMap):
+    (false: "false", null: "null", (): "list")
+
+.sass-null {
+    content: null;
+}
+
+.sass-number-5px {
+    content: 5px;
+}
+
+.sass-number-35-5p {
+    content: 35.5%;
+}
+
+.sass-string-unquot {
+    content: herpderp;
+}
+
+.sass-string-quot {
+    content: "herp derp";
+}
+
+.sass-boolean {
+    content: true;
+}
+
+.sass-color-rgba {
+    content: rgba(231, 45, 189, 0.9);
+}
+
+.sass-color-hsl {
+    content: #7f00ff;
+}
+
+.sass-list {
+    content: false, #334455, "foo";
+}
+
+.sass-map {
+    content: (false: "false", null: "null", (): "list");
+}
+
+

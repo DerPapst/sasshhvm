@@ -1,0 +1,5 @@
+== Sass\Types\SassNull ==
+Create SassNull: null
+Equality:
+    equals own identity: bool(true)
+    equals its clone: bool(true)

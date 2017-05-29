@@ -1,0 +1,50 @@
+array(2) {
+  ["css"]=>
+  string(166) "p {
+  color: #333;
+  text-align: justify;
+  margin-bottom: 1rem; }
+
+a {
+  color: #337ab7; }
+  a:hover {
+    color: #22527b; }
+
+/*# sourceMappingURL=import.scss.map */"
+  ["map"]=>
+  string(609) "{
+	"version": 3,
+	"file": "import.css",
+	"sources": [
+		"import.scss",
+		"more/texts.scss",
+		"more/links.scss"
+	],
+	"sourcesContent": [
+		"@import \"more/texts\";\n@import \"more/links\";\n",
+		"p {\n\tcolor: #333;\n\ttext-align: justify;\n\tmargin-bottom: 1rem;\n}\n",
+		"$link-color: #337ab7;\na {\n\tcolor: $link-color;\n\t&:hover {\n\t\tcolor: darken($link-color, 15%);\n\t}\n}"
+	],
+	"names": [],
+	"mappings": "ACAA,AAAA,CAAC,CAAC;EACD,KAAK,EAAE,IAAI;EACX,UAAU,EAAE,OAAO;EACnB,aAAa,EAAE,IAAI,GACnB;;ACHD,AAAA,CAAC,CAAC;EACD,KAAK,EAFO,OAAO,GAMnB;EALD,AAEC,CAFA,AAEA,MAAO,CAAC;IACP,KAAK,EAAE,OAAwB,GAC/B"
+}"
+}
+NULL
+string(10) "/herp/derp"
+string(638) "{
+	"version": 3,
+	"file": "import.css",
+	"sourceRoot": "/herp/derp",
+	"sources": [
+		"import.scss",
+		"more/texts.scss",
+		"more/links.scss"
+	],
+	"sourcesContent": [
+		"@import \"more/texts\";\n@import \"more/links\";\n",
+		"p {\n\tcolor: #333;\n\ttext-align: justify;\n\tmargin-bottom: 1rem;\n}\n",
+		"$link-color: #337ab7;\na {\n\tcolor: $link-color;\n\t&:hover {\n\t\tcolor: darken($link-color, 15%);\n\t}\n}"
+	],
+	"names": [],
+	"mappings": "ACAA,AAAA,CAAC,CAAC;EACD,KAAK,EAAE,IAAI;EACX,UAAU,EAAE,OAAO;EACnB,aAAa,EAAE,IAAI,GACnB;;ACHD,AAAA,CAAC,CAAC;EACD,KAAK,EAFO,OAAO,GAMnB;EALD,AAEC,CAFA,AAEA,MAAO,CAAC;IACP,KAAK,EAAE,OAAwB,GAC/B"
+}"

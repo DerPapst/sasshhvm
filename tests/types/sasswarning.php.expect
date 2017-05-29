@@ -1,0 +1,11 @@
+== Sass\Types\SassWarning ==
+Create SassWarning: SassWarning: 
+Test default message === '': bool(true)
+Set value to 'test message': SassWarning: test message
+Test value === 'test message': bool(true)
+Equality:
+    equals own identity: bool(true)
+    equals its clone: bool(true)
+    change the clone: Original: SassWarning: test message <-> Clone: SassWarning: i am the clone
+    original still equals its clone: bool(false)
+    equals SassMap: bool(false)

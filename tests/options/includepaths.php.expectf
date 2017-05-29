@@ -1,0 +1,15 @@
+Caught exception 'RuntimeException' with message 'The path %s/i/dont/exist does not exist or is not readable' in /root/build/hhvmextensions/sasshhvmdev/tests/options/includepaths.php:17
+Stack trace:
+#0 (): Sass\Sass->addIncludePath()
+#1 %s/tests/options/includepaths.php(17): Sass\Sass->setIncludePaths()
+#2 %s/tests/options/includepaths.php(49): testSetIncludePaths()
+#3 {main}
+
+.herp {
+  content: "derp"; }
+Caught exception 'RuntimeException' with message 'The path %s/the/final/frontier does not exist or is not readable' in /root/build/hhvmextensions/sasshhvmdev/tests/options/includepaths.php:40
+Stack trace:
+#0 %s/tests/options/includepaths.php(40): Sass\Sass->addIncludePath()
+#1 %s/tests/options/includepaths.php(50): testAddIncludePaths()
+#2 {main}
+

@@ -1,0 +1,24 @@
+Caught exception 'Sass\SassException' with message 'Call to undefined function Sass\idonotexist()' in %s/tests/customimporters/engineexception_php5.php:18
+Source File: stdin
+Source Line: 2
+Source Column: 25
+Full message:
+Error: Call to undefined function Sass\idonotexist()
+        on line 2 of stdin
+>>                 @import "stuff";
+   ------------------------^
+
+Stack trace:
+#0 %s/tests/customimporters/engineexception_php5.php(18): Sass\Sass->compile()
+#1 %s/tests/customimporters/engineexception_php5.php(30): Sass\testCIEngineException()
+#2 %s/tests/customimporters/engineexception_php7.php(3): include()
+#3 {main}
+
+Previous: Error: Call to undefined function Sass\idonotexist() in %s/tests/customimporters/engineexception_php5.php:13
+Stack trace:
+#0 (): Closure$Sass\Sass\testCIEngineException()
+#1 %s/tests/customimporters/engineexception_php5.php(18): Sass\Sass->compile()
+#2 %s/tests/customimporters/engineexception_php5.php(30): Sass\testCIEngineException()
+#3 %s/tests/customimporters/engineexception_php7.php(3): include()
+#4 {main}
+

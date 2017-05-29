@@ -1,0 +1,38 @@
+Caught exception 'Sass\SassException' with message 'warning in callback function make-warning: I am a warning' in %s/tests/customfunctions/sasserror.php:24
+Source File: stdin
+Source Line: 3
+Source Column: 24
+Full message:
+Error: warning in callback function make-warning: I am a warning
+
+       Backtrace:
+       	stdin:3, in function `make-warning`
+       	stdin:3
+        on line 3 of stdin
+>>                 color: make-warning();
+   -----------------------^
+
+Stack trace:
+#0 %s/tests/customfunctions/sasserror.php(24): Sass\Sass->compile()
+#1 %s/tests/customfunctions/sasserror.php(48): testSassError()
+#2 {main}
+
+Caught exception 'Sass\SassException' with message 'error in callback function make-error: I am an error' in %s/tests/customfunctions/sasserror.php:38
+Source File: stdin
+Source Line: 3
+Source Column: 24
+Full message:
+Error: error in callback function make-error: I am an error
+
+       Backtrace:
+       	stdin:3, in function `make-error`
+       	stdin:3
+        on line 3 of stdin
+>>                 color: make-error();
+   -----------------------^
+
+Stack trace:
+#0 %s/tests/customfunctions/sasserror.php(38): Sass\Sass->compile()
+#1 %s/tests/customfunctions/sasserror.php(48): testSassError()
+#2 {main}
+

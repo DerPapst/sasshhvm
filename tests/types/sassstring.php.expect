@@ -1,0 +1,29 @@
+== Sass\Types\SassString ==
+Create SassString: 
+Test defaults
+    value === '': bool(true)
+    isQuoted: bool(false)
+    needsQuotes: bool(false)
+Set value to 'test string': test string
+    value === 'test string': bool(true)
+    isQuoted: bool(false)
+Quote Handling:
+    quote string: "test string"
+    value === '"test string"': bool(true)
+    isQuoted: bool(true)
+    quote string again: "test string"
+    unquote string: test string
+    needsQuotes: bool(true)
+    autoquote: "test string"
+    needsQuotes: bool(true)
+New SassString with value '"anotherstring"': "anotherstring"
+    isQuoted: bool(true)
+    needsQuotes: bool(false)
+    unquote and then autoquote: anotherstring
+Equality:
+    equals own identity: bool(true)
+    equals its clone: bool(true)
+    change the clone: Original: anotherstring <-> Clone: herpderp
+    original still equals its clone: bool(false)
+    equals SassNumber: bool(false)
+

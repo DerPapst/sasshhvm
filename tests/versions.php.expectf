@@ -1,0 +1,8 @@
+Sass::getLibraryVersion
+string(%d) "%r\d+(\.\d+)*[0-9a-z\.\-]*%r"
+
+Sass::getLanguageVersion
+string(%d) "%r\d+(\.\d+)*%r"
+
+Sass::getSass2ScssVersion
+string(%d) "%r\d+(\.\d+)*%r"

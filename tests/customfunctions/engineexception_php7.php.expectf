@@ -1,0 +1,26 @@
+Caught exception 'Sass\SassException' with message 'error in callback function derp: Call to undefined function idonotexist()' in %s/tests/customfunctions/engineexception_php5.php:17
+Source File: stdin
+Source Line: 2
+Source Column: 24
+Full message:
+Error: error in callback function derp: Call to undefined function idonotexist()
+
+       Backtrace:
+       	stdin:2, in function `derp`
+       	stdin:2
+        on line 2 of stdin
+>>                 $herp: derp();
+   -----------------------^
+
+Stack trace:
+#0 %s/tests/customfunctions/engineexception_php5.php(17): Sass\Sass->compile()
+#1 %s/tests/customfunctions/engineexception_php7.php(5): testCFEngineException()
+#2 {main}
+
+Previous: Error: Call to undefined function idonotexist() in %s/tests/customfunctions/engineexception_php5.php:12
+Stack trace:
+#0 (): Closure$testCFEngineException()
+#1 %s/tests/customfunctions/engineexception_php5.php(17): Sass\Sass->compile()
+#2 %s/tests/customfunctions/engineexception_php7.php(5): testCFEngineException()
+#3 {main}
+

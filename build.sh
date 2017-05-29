@@ -12,4 +12,3 @@ if [ ! -e "$HPHPIZE" ]; then
 fi
 
 $HPHPIZE && cmake . && make
-

@@ -5,4 +5,7 @@ Makefile
 cmake_install.cmake
 *.so
 run-test
+.hhconfig
+make_hhi.php
+install_manifest.txt
 

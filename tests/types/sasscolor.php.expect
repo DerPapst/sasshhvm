@@ -1,0 +1,18 @@
+== Sass\Types\SassColor ==
+Create SassColor: rgb(0, 0, 0)
+Test defaults:
+    value === rgb(0,0,0): bool(true)
+    alpha === 1.0: bool(true)
+Set rgb color to SassColorRGB(248, 140, 30) and alpha 0.5: rgba(247, 142, 35, 0.5)
+Verify new values: bool(true)
+Color conversion:
+    as SassColorHSL: {"h":30.283,"s":0.93,"l":0.553}
+    converted back to SassColorRGB: {"r":247,"g":142,"b":35}
+    Create a new color from SassColorHSL and the old alpha value: rgba(247, 142, 35, 0.5)
+Equality:
+    equals own identity: bool(true)
+    equals its clone: bool(true)
+    change the clone: Original: rgba(247, 142, 35, 0.5) <-> Clone: rgba(247, 142, 35, 0.1)
+    original still equals its clone: bool(false)
+    equals SassBoolean: bool(false)
+

@@ -1,0 +1,26 @@
+Caught exception 'Sass\SassException' with message 'error in callback function derp: A random exception appears...' in %s/tests/customfunctions/exception.php:16
+Source File: stdin
+Source Line: 2
+Source Column: 24
+Full message:
+Error: error in callback function derp: A random exception appears...
+
+       Backtrace:
+       	stdin:2, in function `derp`
+       	stdin:2
+        on line 2 of stdin
+>>                 $herp: derp();
+   -----------------------^
+
+Stack trace:
+#0 %s/tests/customfunctions/exception.php(16): Sass\Sass->compile()
+#1 %s/tests/customfunctions/exception.php(27): testException()
+#2 {main}
+
+Previous Exception: exception 'LogicException' with message 'A random exception appears...' in %s/tests/customfunctions/exception.php:11
+Stack trace:
+#0 (): Closure$testException()
+#1 %s/tests/customfunctions/exception.php(16): Sass\Sass->compile()
+#2 %s/tests/customfunctions/exception.php(27): testException()
+#3 {main}
+

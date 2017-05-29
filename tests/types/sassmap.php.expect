@@ -1,0 +1,46 @@
+== Sass\Types\SassMap ==
+Create SassMap: ()
+Test Defaults:
+    isEmpty: bool(true)
+    count: int(0)
+    isValid: bool(true)
+Add some elements: (3: true, herp: derp, rgb(255, 127, 0): null)
+Create a 2nd map: (5: foo, 3: false)
+Merge both maps: (3: false, herp: derp, rgb(255, 127, 0): null, 5: foo)
+Test methods for reading:
+    firstKey: 3
+    firstValue: false
+    lastKey: 5
+    lastValue: foo
+    keys:
+        is SassList: bool(true)
+        contents: (3, herp, rgb(255, 127, 0), 5)
+    values:
+        is SassList: bool(true)
+        contents: (false, derp, null, foo)
+    at(SassValue::cs(5)): foo
+    at(SassValue::cs('5')): Caught OutOfBoundsException with message "Sass\Types\SassString key 5 is not defined"
+    get(SassValue::cs('herp')): derp
+    get(SassValue::cs('5')): NULL
+    containsKey(SassValue::cs(3)): bool(true)
+    containsKey(SassValue::cs('5')): bool(false)
+Iterate:
+    Key: 3 => Value: false
+    Key: herp => Value: derp
+    Key: rgb(255, 127, 0) => Value: null
+    Key: 5 => Value: foo
+Validation:
+    isValid: bool(true)
+    make the map invalid: (3: ((*SassMap RECURSION*)), herp: derp, rgb(255, 127, 0): null, 5: foo)
+    isValid: bool(false)
+    try to clone the invalid list: Caught LogicException with message "Sass\Types\SassMap does not support recursion."
+    remove the invalid item: (herp: derp, rgb(255, 127, 0): null, 5: foo)
+Equality:
+    equals own identity: bool(true)
+    equals its clone: bool(true)
+    change one element of the clone: Original: (herp: derp, rgb(255, 127, 0): null, 5: foo) <-> Clone: (herp: derp, rgb(255, 127, 0): null, 5: bar)
+    still equals its clone: bool(false)
+    equals SassList: bool(false)
+Clear map:
+    Map is now: ()
+    Count: 0

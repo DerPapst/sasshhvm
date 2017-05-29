@@ -1,0 +1,23 @@
+Array
+(
+    [css] => /* line 1, herpderp */
+a {
+    color: red;
+}
+
+/*# sourceMappingURL=herpderp.map */
+    [map] => {
+	"version": 3,
+	"file": "stdin.css",
+	"sources": [
+		"stdin",
+		"herpderp"
+	],
+	"sourcesContent": [
+		"@import \"herpderp\";",
+		"a { color: red; }"
+	],
+	"names": [],
+	"mappings": ";ACAA,AAAA,CAAC,CAAC;IAAE,KAAK,EAAE,GAAG;CAAK"
+}
+)

@@ -1,0 +1,64 @@
+== Importer 'http' ==
+    args
+        $curPath:  http://example.org/scss/remote.scss
+        $prevPath: stdin
+== Importer 'http' ==
+    args
+        $curPath:  scss/herpderp.scss
+        $prevPath: stdin
+== Importer 'local' ==
+    args
+        $curPath:  scss/herpderp.scss
+        $prevPath: stdin
+== Importer 'http' ==
+    args
+        $curPath:  local.scss
+        $prevPath: stdin
+== Importer 'local' ==
+    args
+        $curPath:  local.scss
+        $prevPath: stdin
+Array
+(
+    [css] => .remote {
+    border: 1px solid #000;
+}
+
+.herp {
+    content: "derp";
+}
+
+.local {
+    border: 1px solid #f00;
+}
+
+a {
+    color: #337ab7;
+}
+
+a:hover {
+    color: #22527b;
+}
+
+/*# sourceMappingURL=test.map */
+    [map] => {
+	"version": 3,
+	"file": "stdin.css",
+	"sources": [
+		"stdin",
+		"http://example.org/scss/remote.scss",
+		"tests/resources/scss/herpderp.scss",
+		"php://temp/03a704e8e682bc130a379f48d906f482.scss",
+		"tests/resources/scss/more/links.scss"
+	],
+	"sourcesContent": [
+		"\n            @import \"http://example.org/scss/remote.scss\";\n            @import \"scss/herpderp.scss\";\n            @import \"local.scss\";\n        ",
+		".remote { border: 1px solid #000; }",
+		".herp {\n\tcontent: \"derp\";\n}\n",
+		".local { border: 1px solid #f00; }",
+		"$link-color: #337ab7;\na {\n\tcolor: $link-color;\n\t&:hover {\n\t\tcolor: darken($link-color, 15%);\n\t}\n}"
+	],
+	"names": [],
+	"mappings": "ACAA,AAAA,OAAO,CAAC;IAAE,MAAM,EAAE,cAAc;CAAK;;ACArC,AAAA,KAAK,CAAC;IACL,OAAO,EAAE,MAAM;CACf;;ACFD,AAAA,MAAM,CAAC;IAAE,MAAM,EAAE,cAAc;CAAK;;ACCpC,AAAA,CAAC,CAAC;IACD,KAAK,EAFO,OAAO;CAMnB;;AALD,AAEC,CAFA,AAEA,MAAO,CAAC;IACP,KAAK,EAAE,OAAwB;CAC/B"
+}
+)

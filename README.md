@@ -55,7 +55,7 @@ HPHP_HOME=/path/to/hhvm/source ./test.sh
 
 ## Usage
 
-This extension has a very simple API. You can find the entire API [here](Sass.hhi).
+This extension has a very simple API. You can find the entire API [here](ext_sass.hhi).
 
 ```php
 $sass = new Sass();
@@ -138,3 +138,48 @@ $e->getSourceLine();
 $e->getSourceColumn();
 $e->getFormattedMessage();
 ```
+
+### Custom Functions and Custom Importers
+
+It is possible to provide custom functions and custom importers written in PHP to libsass which can be called from your sass source code.
+
+```php
+$css = (new Sass())
+    ->addFunction('inline-image($url)', function (ImmVector<SassValue> $args): SassValue {
+        // Missing a sensible amount of error checking and type checks.
+        $path = $args[0]->unquote(); // instanceof SassString
+        $img = file_get_contents((string)$path);
+        return (new SassString())->setValue('url("data:image/png;base64,'.base64_encode($img).'")');
+    })
+    ->addImporter('http', function (string $curPath, string $prevPath): ?Traversable<?SassImport> {
+        // here the scss could be fetched with eg. curl
+        if (preg_match('/^https?:\/\//', $curPath)) {
+            return [
+                (new SassImport())
+                    ->setPath($curPath)
+                    ->setSource('.remote { border: 1px solid #000; }')
+            ];
+        }
+        // let another importer or libsass handle the import.
+        return null;
+    }, 2)
+    ->compile('
+        @import "http://example.org/scss/remote.scss";
+        #myimage {
+            background-image: inline-image("path/to/bg.png");
+        }
+    ');
+```
+
+Result:
+```css
+.remote {
+    border: 1px solid #000;
+}
+
+#myimage {
+    background-image: url("data:image/png;base64,iVBORw0KGgoA[...]mCC=");
+}
+```
+
+For more details on how to use custom functions and custom importers please check out the [tests](tests) directory.

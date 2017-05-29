@@ -1,5 +1,13 @@
 # Code shamelessly copied from http://stackoverflow.com/questions/7876753/reusing-custom-makefile-for-static-library-with-cmake
 
+include(CheckFunctionExists)
+CHECK_FUNCTION_EXISTS(memrchr FOLLY_HAVE_MEMRCHR)
+if (FOLLY_HAVE_MEMRCHR)
+  add_definitions("-DFOLLY_HAVE_MEMRCHR=1")
+else()
+  add_definitions("-DFOLLY_HAVE_MEMRCHR=0")
+endif()
+
 # set the output destination
 set(LIBSASS_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/lib/libsass/lib/libsass.a)
 # create a custom target called build_libsass that is part of ALL
@@ -20,7 +28,13 @@ set_target_properties(libsass PROPERTIES
 # now you can use libsass as if it were a regular cmake built target in your project
 add_dependencies(libsass build_libsass)
 
-HHVM_EXTENSION(sass ext_sass.cpp)
+HHVM_EXTENSION(sass
+  ext_sass.cpp
+  src/ExceptionManager.cpp
+  src/SassTypesFactory.cpp
+  src/CustomFunctionBridge.cpp
+  src/CustomImporterBridge.cpp
+)
 HHVM_SYSTEMLIB(sass ext_sass.php)
 
 target_link_libraries(sass libsass)

@@ -1,0 +1,25 @@
+bool(false)
+bool(true)
+p {
+  color: #333;
+  text-align: justify;
+  margin-bottom: 1rem; }
+
+a {
+  color: #337ab7; }
+  a:hover {
+    color: #22527b; }
+
+/*# sourceMappingURL=data:application/json;base64,ewoJInZlcnNpb24iOiAzLAoJImZpbGUiOiAidGVzdHMvcmVzb3VyY2VzL3Njc3MvaW1wb3J0LmNzcyIsCgkic291cmNlcyI6IFsKCQkidGVzdHMvcmVzb3VyY2VzL3Njc3MvaW1wb3J0LnNjc3MiLAoJCSJ0ZXN0cy9yZXNvdXJjZXMvc2Nzcy9tb3JlL3RleHRzLnNjc3MiLAoJCSJ0ZXN0cy9yZXNvdXJjZXMvc2Nzcy9tb3JlL2xpbmtzLnNjc3MiCgldLAoJIm5hbWVzIjogW10sCgkibWFwcGluZ3MiOiAiQUNBQSxBQUFBLENBQUMsQ0FBQztFQUNELEtBQUssRUFBRSxJQUFJO0VBQ1gsVUFBVSxFQUFFLE9BQU87RUFDbkIsYUFBYSxFQUFFLElBQUksR0FDbkI7O0FDSEQsQUFBQSxDQUFDLENBQUM7RUFDRCxLQUFLLEVBRk8sT0FBTyxHQU1uQjtFQUxELEFBRUMsQ0FGQSxBQUVBLE1BQU8sQ0FBQztJQUNQLEtBQUssRUFBRSxPQUF3QixHQUMvQiIKfQ== */
+
+Embedded map: string(421) "{
+	"version": 3,
+	"file": "tests/resources/scss/import.css",
+	"sources": [
+		"tests/resources/scss/import.scss",
+		"tests/resources/scss/more/texts.scss",
+		"tests/resources/scss/more/links.scss"
+	],
+	"names": [],
+	"mappings": "ACAA,AAAA,CAAC,CAAC;EACD,KAAK,EAAE,IAAI;EACX,UAAU,EAAE,OAAO;EACnB,aAAa,EAAE,IAAI,GACnB;;ACHD,AAAA,CAAC,CAAC;EACD,KAAK,EAFO,OAAO,GAMnB;EALD,AAEC,CAFA,AAEA,MAAO,CAAC;IACP,KAAK,EAAE,OAAwB,GAC/B"
+}"

@@ -1,0 +1,316 @@
+== Importer Called ==
+Value to be returned:
+    int(5)
+
+Caught exception 'Sass\SassException' with message 'Returned value must be an instance of Traversable<?SassImport> or null.' in %s/tests/customimporters/returnvalues.php:19
+Source File: stdin
+Source Line: 1
+Source Column: 9
+Full message:
+Error: Returned value must be an instance of Traversable<?SassImport> or null.
+        on line 1 of stdin
+>> @import "herpderp";
+   --------^
+
+Stack trace:
+#0 %s/tests/customimporters/returnvalues.php(19): Sass\Sass->compileWithMap()
+#1 %s/tests/customimporters/returnvalues.php(47): runImporter()
+#2 %s/tests/customimporters/returnvalues.php(51): testCIReturnValues()
+#3 {main}
+
+
+== Importer Called ==
+Value to be returned:
+    array(1) {
+      [0]=>
+      int(5)
+    }
+
+Caught exception 'Sass\SassException' with message 'Returned value must be an instance of Traversable<?SassImport> or null.' in %s/tests/customimporters/returnvalues.php:19
+Source File: stdin
+Source Line: 1
+Source Column: 9
+Full message:
+Error: Returned value must be an instance of Traversable<?SassImport> or null.
+        on line 1 of stdin
+>> @import "herpderp";
+   --------^
+
+Stack trace:
+#0 %s/tests/customimporters/returnvalues.php(19): Sass\Sass->compileWithMap()
+#1 %s/tests/customimporters/returnvalues.php(47): runImporter()
+#2 %s/tests/customimporters/returnvalues.php(51): testCIReturnValues()
+#3 {main}
+
+
+== Importer Called ==
+Value to be returned:
+    string(18) ".foo {width: 5px};"
+
+Caught exception 'Sass\SassException' with message 'Returned value must be an instance of Traversable<?SassImport> or null.' in %s/tests/customimporters/returnvalues.php:19
+Source File: stdin
+Source Line: 1
+Source Column: 9
+Full message:
+Error: Returned value must be an instance of Traversable<?SassImport> or null.
+        on line 1 of stdin
+>> @import "herpderp";
+   --------^
+
+Stack trace:
+#0 %s/tests/customimporters/returnvalues.php(19): Sass\Sass->compileWithMap()
+#1 %s/tests/customimporters/returnvalues.php(47): runImporter()
+#2 %s/tests/customimporters/returnvalues.php(51): testCIReturnValues()
+#3 {main}
+
+
+== Importer Called ==
+Value to be returned:
+    NULL
+
+Caught exception 'Sass\SassException' with message 'File to import not found or unreadable: herpderp.
+Parent style sheet: stdin' in %s/tests/customimporters/returnvalues.php:19
+Source File: stdin
+Source Line: 1
+Source Column: 1
+Full message:
+Error: File to import not found or unreadable: herpderp.
+       Parent style sheet: stdin
+        on line 1 of stdin
+>> @import "herpderp";
+   ^
+
+Stack trace:
+#0 %s/tests/customimporters/returnvalues.php(19): Sass\Sass->compileWithMap()
+#1 %s/tests/customimporters/returnvalues.php(47): runImporter()
+#2 %s/tests/customimporters/returnvalues.php(51): testCIReturnValues()
+#3 {main}
+
+
+== Importer Called ==
+Value to be returned:
+    bool(true)
+
+Caught exception 'Sass\SassException' with message 'Returned value must be an instance of Traversable<?SassImport> or null.' in %s/tests/customimporters/returnvalues.php:19
+Source File: stdin
+Source Line: 1
+Source Column: 9
+Full message:
+Error: Returned value must be an instance of Traversable<?SassImport> or null.
+        on line 1 of stdin
+>> @import "herpderp";
+   --------^
+
+Stack trace:
+#0 %s/tests/customimporters/returnvalues.php(19): Sass\Sass->compileWithMap()
+#1 %s/tests/customimporters/returnvalues.php(47): runImporter()
+#2 %s/tests/customimporters/returnvalues.php(51): testCIReturnValues()
+#3 {main}
+
+
+== Importer Called ==
+Value to be returned:
+    object(stdClass)#2 (0) {
+    }
+
+Caught exception 'Sass\SassException' with message 'Returned value must be an instance of Traversable<?SassImport> or null.' in %s/tests/customimporters/returnvalues.php:19
+Source File: stdin
+Source Line: 1
+Source Column: 9
+Full message:
+Error: Returned value must be an instance of Traversable<?SassImport> or null.
+        on line 1 of stdin
+>> @import "herpderp";
+   --------^
+
+Stack trace:
+#0 %s/tests/customimporters/returnvalues.php(19): Sass\Sass->compileWithMap()
+#1 %s/tests/customimporters/returnvalues.php(47): runImporter()
+#2 %s/tests/customimporters/returnvalues.php(51): testCIReturnValues()
+#3 {main}
+
+
+== Importer Called ==
+Value to be returned:
+    array(0) {
+    }
+
+Array
+(
+    [css] => 
+/*# sourceMappingURL=herpderp.map */
+    [map] => {
+	"version": 3,
+	"file": "stdin.css",
+	"sources": [
+		"stdin"
+	],
+	"sourcesContent": [
+		"@import \"herpderp\";"
+	],
+	"names": [],
+	"mappings": ""
+}
+)
+
+
+
+== Importer Called ==
+Value to be returned:
+    array(1) {
+      [0]=>
+      NULL
+    }
+
+Array
+(
+    [css] => 
+/*# sourceMappingURL=herpderp.map */
+    [map] => {
+	"version": 3,
+	"file": "stdin.css",
+	"sources": [
+		"stdin"
+	],
+	"sourcesContent": [
+		"@import \"herpderp\";"
+	],
+	"names": [],
+	"mappings": ""
+}
+)
+
+
+
+== Importer Called ==
+Value to be returned:
+    object(Sass\SassImport)#3 (3) {
+      ["path":protected]=>
+      string(0) ""
+      ["source":protected]=>
+      string(18) ".foo {width: 5px};"
+      ["srcmap":protected]=>
+      NULL
+    }
+
+Array
+(
+    [css] => /* line 1, php://temp/f3542142ecbca865e7e57819e417085b.scss */
+.foo {
+    width: 5px;
+}
+
+/*# sourceMappingURL=herpderp.map */
+    [map] => {
+	"version": 3,
+	"file": "stdin.css",
+	"sources": [
+		"stdin",
+		"php://temp/f3542142ecbca865e7e57819e417085b.scss"
+	],
+	"sourcesContent": [
+		"@import \"herpderp\";",
+		".foo {width: 5px};"
+	],
+	"names": [],
+	"mappings": ";ACAA,AAAA,IAAI,CAAC;IAAC,KAAK,EAAE,GAAG;CAAG"
+}
+)
+
+
+
+== Importer Called ==
+Value to be returned:
+    array(3) {
+      [0]=>
+      object(Sass\SassImport)#4 (3) {
+        ["path":protected]=>
+        string(0) ""
+        ["source":protected]=>
+        string(37) ".import-1 { border: 1px solid #f0f; }"
+        ["srcmap":protected]=>
+        NULL
+      }
+      [1]=>
+      NULL
+      [2]=>
+      object(Sass\SassImport)#5 (3) {
+        ["path":protected]=>
+        string(34) "tests/resources/scss/herpderp.scss"
+        ["source":protected]=>
+        NULL
+        ["srcmap":protected]=>
+        NULL
+      }
+    }
+
+Array
+(
+    [css] => /* line 1, php://temp/6b333241fa79f7e6e55a6fd299e26d2d.scss */
+.import-1 {
+    border: 1px solid #f0f;
+}
+
+/* line 1, tests/resources/scss/herpderp.scss */
+.herp {
+    content: "derp";
+}
+
+/*# sourceMappingURL=herpderp.map */
+    [map] => {
+	"version": 3,
+	"file": "stdin.css",
+	"sources": [
+		"stdin",
+		"php://temp/6b333241fa79f7e6e55a6fd299e26d2d.scss",
+		"tests/resources/scss/herpderp.scss"
+	],
+	"sourcesContent": [
+		"@import \"herpderp\";",
+		".import-1 { border: 1px solid #f0f; }",
+		".herp {\n\tcontent: \"derp\";\n}\n"
+	],
+	"names": [],
+	"mappings": ";ACAA,AAAA,SAAS,CAAC;IAAE,MAAM,EAAE,cAAc;CAAK;;;ACAvC,AAAA,KAAK,CAAC;IACL,OAAO,EAAE,MAAM;CACf"
+}
+)
+
+
+
+== Importer Called ==
+Value to be returned:
+    object(HH\Vector)#7 (1) {
+      [0]=>
+      object(Sass\SassImport)#6 (3) {
+        ["path":protected]=>
+        string(0) ""
+        ["source":protected]=>
+        string(36) ".import-vector { background: #ff0; }"
+        ["srcmap":protected]=>
+        NULL
+      }
+    }
+
+Array
+(
+    [css] => /* line 1, php://temp/7655d6643c5e944523af69ede7a0be80.scss */
+.import-vector {
+    background: #ff0;
+}
+
+/*# sourceMappingURL=herpderp.map */
+    [map] => {
+	"version": 3,
+	"file": "stdin.css",
+	"sources": [
+		"stdin",
+		"php://temp/7655d6643c5e944523af69ede7a0be80.scss"
+	],
+	"sourcesContent": [
+		"@import \"herpderp\";",
+		".import-vector { background: #ff0; }"
+	],
+	"names": [],
+	"mappings": ";ACAA,AAAA,cAAc,CAAC;IAAE,UAAU,EAAE,IAAI;CAAK"
+}
+)

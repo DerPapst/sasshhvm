@@ -1,4 +1,4 @@
-Caught exception 'SassException' with message 'property "asd" must be followed by a ':'' in %s/tests/compileerror.php:8
+Caught exception 'Sass\SassException' with message 'property "asd" must be followed by a ':'' in %s/tests/compileerror.php:10
 Source File: stdin
 Source Line: 4
 Source Column: 9
@@ -9,8 +9,8 @@ Error: property "asd" must be followed by a ':'
    --------^
 
 Stack trace:
-#0 %s/tests/compileerror.php(8): Sass->compile()
-#1 %s/tests/compileerror.php(31): testCompileErrorString()
+#0 %s/tests/compileerror.php(10): Sass\Sass->compile()
+#1 %s/tests/compileerror.php(33): Sass\testCompileErrorString()
 #2 {main}
 
 string(5) "stdin"
@@ -23,17 +23,19 @@ string(103) "Error: property "asd" must be followed by a ':'
 "
 
 
-Caught exception 'SassException' with message 'Undefined variable: "$iDoNotExist".' in %s/tests/compileerror.php:25
-Source File: %s/tests/sass/more/borked.scss
+Caught exception 'Sass\SassException' with message 'Undefined variable: "$iDoNotExist".' in %s/tests/compileerror.php:27
+Source File: %s/tests/resources/scss/more/borked.scss
 Source Line: 3
 Source Column: 9
 Full message:
 Error: Undefined variable: "$iDoNotExist".
-        on line 3 of tests/sass/more/borked.scss
+        on line 3 of tests/resources/scss/more/borked.scss
 >> 	color: $iDoNotExist;
    --------^
 
 Stack trace:
-#0 %s/tests/compileerror.php(25): Sass->compileFile()
-#1 %s/tests/compileerror.php(32): testCompileErrorFile()
-#2 {main}
+#0 (): Sass\Sass->compileFileNative()
+#1 %s/tests/compileerror.php(27): Sass\Sass->compileFile()
+#2 %s/tests/compileerror.php(34): Sass\testCompileErrorFile()
+#3 {main}
+

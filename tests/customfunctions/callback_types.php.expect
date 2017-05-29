@@ -1,0 +1,8 @@
+.test {
+    test-closure: "{closure} called";
+    test-function: "myfunc called";
+    test-instance-method: "MyClass::instanceMethod called";
+    test-static-method: "MyClass::staticMethod called";
+}
+
+

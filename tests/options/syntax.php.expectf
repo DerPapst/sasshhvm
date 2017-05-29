@@ -1,0 +1,63 @@
+Array
+(
+    [0] => SYNTAX_SCSS
+    [1] => SYNTAX_SASS
+)
+bool(true)
+
+== SYNTAX_SCSS ==
+bool(true)
+nav ul li {
+  display: inline-block; }
+  nav ul li a {
+    color: blue;
+    border: 1px solid #ccc; }
+
+Caught exception 'Sass\SassException' with message 'Invalid CSS after " */": expected 1 selector or at-rule, was "nav"' in %s/tests/options/syntax.php:33
+Source File: stdin
+Source Line: 3
+Source Column: 4
+Full message:
+Error: Invalid CSS after " */": expected 1 selector or at-rule, was "nav"
+        on line 3 of stdin
+>>  */
+   ---^
+
+Stack trace:
+#0 %s/tests/options/syntax.php(33): Sass\Sass->compile()
+#1 %s/tests/options/syntax.php(71): testSyntax()
+#2 {main}
+
+== SYNTAX_SASS ==
+bool(true)
+/**
+ * A Doc Comment
+ */
+nav ul li {
+  /* a multiline comment */
+  display: inline-block; }
+  nav ul li a {
+    color: blue;
+    border: 1px solid #ccc; }
+
+Caught exception 'Sass\SassException' with message 'Invalid CSS after "nav {": expected "}", was "{"' in %s/tests/options/syntax.php:53
+Source File: stdin
+Source Line: 1
+Source Column: 6
+Full message:
+Error: Invalid CSS after "nav {": expected "}", was "{"
+        on line 1 of stdin
+>> nav { {
+   -----^
+
+Stack trace:
+#0 %s/tests/options/syntax.php(53): Sass\Sass->compile()
+#1 %s/tests/options/syntax.php(71): testSyntax()
+#2 {main}
+
+Caught exception 'InvalidArgumentException' with message 'This syntax is not supported.' in %s/tests/options/syntax.php:62
+Stack trace:
+#0 %s/tests/options/syntax.php(62): Sass\Sass->setSyntax()
+#1 %s/tests/options/syntax.php(71): testSyntax()
+#2 {main}
+

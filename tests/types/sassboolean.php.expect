@@ -1,0 +1,11 @@
+== Sass\Types\SassBoolean ==
+Create SassBoolean: false
+Test default value === false: bool(true)
+Set value === true: true
+Test value === true bool(true)
+Equality:
+    equals own identity: bool(true)
+    equals its clone: bool(true)
+    change the clone: Original: true <-> Clone: false
+    original still equals its clone: bool(false)
+    equals SassString: bool(false)

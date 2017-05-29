@@ -1,0 +1,16 @@
+int(5)
+.selector {
+  width: 0.71429%; }
+
+
+int(3)
+.selector {
+  width: 0.714%; }
+
+
+Caught exception 'InvalidArgumentException' with message 'The precision has to be greater or equal than 0.' in %s/tests/options/precision.php:23
+Stack trace:
+#0 %s/tests/options/precision.php(23): Sass\Sass->setPrecision()
+#1 %s/tests/options/precision.php(32): testPrecision()
+#2 {main}
+

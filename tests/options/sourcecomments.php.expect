@@ -1,0 +1,14 @@
+bool(false)
+bool(true)
+/* line 1, tests/resources/scss/more/texts.scss */
+p {
+  color: #333;
+  text-align: justify;
+  margin-bottom: 1rem; }
+
+/* line 2, tests/resources/scss/more/links.scss */
+a {
+  color: #337ab7; }
+  /* line 4, tests/resources/scss/more/links.scss */
+  a:hover {
+    color: #22527b; }

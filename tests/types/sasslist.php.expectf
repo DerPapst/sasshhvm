@@ -1,0 +1,58 @@
+== Sass\Types\SassList ==
+Create SassList: ()
+Test Defaults:
+    isEmpty: bool(true)
+    count: int(0)
+    Separator === SassList::SEPARATOR_COMMA: bool(true)
+Empty SassList is valid: bool(true)
+Add some elements: (5px, string, rgb(100, 255, 0))
+Test methods for reading:
+    firstValue matches SassNumber 5px: bool(true)
+    firstKey matches is int(0): bool(true)
+    lastValue matches SassColor rgb(100, 255, 0): bool(true)
+    lastKey matches is int(2): bool(true)
+    at(0): 5px
+    at(1): string
+    at(3): Caught OutOfBoundsException with message "Integer key 3 is out of bounds"
+    get(2): rgb(100, 255, 0)
+    get(3): NULL
+    containsKey(1): bool(true)
+    containsKey(3): bool(false)
+Test methods for modifing:
+    set(1, SassBoolean(true)): (5px, true, rgb(100, 255, 0))
+    set(3, SassString("test")): Caught OutOfBoundsException with message "Integer key 3 is out of bounds"
+    addAll(): (5px, true, rgb(100, 255, 0), "a test", null)
+    count is now expected to be 5: bool(true)
+    setAll() with existing keys: (5px, rgb(0, 0, 0), rgb(100, 255, 0), "a test", ())
+    pop()
+        expected returned value is empty SassList: bool(true)
+        count is now expected to be 4: bool(true)
+    removeKey(1): (5px, rgb(100, 255, 0), "a test") reducing count to 3: bool(true)
+Iterate:
+    Key: 0 => Value: 5px
+    Key: 1 => Value: rgb(100, 255, 0)
+    Key: 2 => Value: "a test"
+Separator:
+    Set to SassList::SEPARATOR_SPACE: (5px rgb(100, 255, 0) "a test")
+    getSeparator() returns SEPARATOR_SPACE: bool(true)
+    Set to invalid separator: Caught InvalidArgumentException with message "Invalid separator "-". Use SassList::SEPARATOR_COMMA or SassList::SEPARATOR_SPACE."
+    Set to SassList::SEPARATOR_COMMA: (5px, rgb(100, 255, 0), "a test")
+Validation:
+    isValid: bool(true)
+    make the list invalid: (5px, rgb(100, 255, 0), "a test", (*SassList RECURSION*))
+    isValid: bool(false)
+    try to clone the invalid list: Caught LogicException with message "Sass\Types\SassList does not support recursion."
+    remove the invalid item: (5px, rgb(100, 255, 0), "a test")
+Equality:
+    equals own identity: bool(true)
+    equals its clone: bool(true)
+    change one element of the clone: Original: (5px, rgb(100, 255, 0), "a test") <-> Clone: (6px, rgb(100, 255, 0), "a test")
+    still equals its clone: bool(false)
+    equals SassColor: bool(false)
+Order:
+    reverse: ("a test", rgb(100, 255, 0), 5px)
+    lastValue matches SassNumber 5px: bool(true)
+    shuffle: (%s)
+Clear list:
+    List is now: ()
+    Count: 0

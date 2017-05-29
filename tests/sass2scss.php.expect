@@ -1,0 +1,58 @@
+Array
+(
+    [0] => SASS2SCSS_CONVERT_COMMENT
+    [1] => SASS2SCSS_KEEP_COMMENT
+    [2] => SASS2SCSS_PRETTIFY_0
+    [3] => SASS2SCSS_PRETTIFY_1
+    [4] => SASS2SCSS_PRETTIFY_2
+    [5] => SASS2SCSS_PRETTIFY_3
+    [6] => SASS2SCSS_STRIP_COMMENT
+)
+string(130) "/*** A Doc Comment*/nav { ul { li { /* a multiline comment */display: inline-block;a { color: blue;border: 1px solid #ccc; } } } }"
+string(123) "nav {
+  ul {
+    li {
+
+      display: inline-block;
+      a {
+        color: blue;
+        border: 1px solid #ccc; } } } }
+"
+string(224) "/**
+ * A Doc Comment
+ */
+nav {
+  ul {
+    li {
+      /* a multiline comment */
+      display: inline-block;
+      a {
+        // a single line comment
+        color: blue;
+        border: 1px solid #ccc;
+      }
+    }
+  }
+}
+"
+string(239) "/**
+ * A Doc Comment
+ */
+nav
+{
+  ul
+  {
+    li
+    {
+      /* a multiline comment */
+      display: inline-block;
+      a
+      {
+        /* a single line comment */
+        color: blue;
+        border: 1px solid #ccc;
+      }
+    }
+  }
+}
+"

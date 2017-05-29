@@ -1,0 +1,37 @@
+bool(true)
+bool(true)
+Caught exception 'InvalidArgumentException' with message 'This style is not supported.' in %s/tests/options/style.php:21
+Stack trace:
+#0 %s/tests/options/style.php(21): Sass\Sass->setStyle()
+#1 %s/tests/options/style.php(55): testStyle()
+#2 {main}
+Array
+(
+    [0] => STYLE_COMPACT
+    [1] => STYLE_COMPRESSED
+    [2] => STYLE_EXPANDED
+    [3] => STYLE_NESTED
+)
+== STYLE_COMPACT ==
+a { color: #337ab7; }
+
+a:hover { color: #22527b; }
+
+== STYLE_COMPRESSED ==
+a{color:#337ab7}a:hover{color:#22527b}
+
+== STYLE_EXPANDED ==
+a {
+  color: #337ab7;
+}
+
+a:hover {
+  color: #22527b;
+}
+
+== STYLE_NESTED ==
+a {
+  color: #337ab7; }
+  a:hover {
+    color: #22527b; }
+

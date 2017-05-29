@@ -1,0 +1,22 @@
+object(HH\ImmMap)#2 (0) {
+}
+object(HH\ImmMap)#2 (3) {
+  ["header-1"]=>
+  int(0)
+  ["header-2"]=>
+  int(10)
+  ["header-3"]=>
+  int(-3)
+}
+object(HH\ImmMap)#2 (2) {
+  ["header-2"]=>
+  int(10)
+  ["header-3"]=>
+  int(-3)
+}
+object(HH\ImmMap)#2 (2) {
+  ["header-2"]=>
+  int(10)
+  ["header-3"]=>
+  int(3)
+}

@@ -1,0 +1,32 @@
+array(2) {
+  ["css"]=>
+  string(194) "nav ul li {
+  display: inline-block; }
+  nav ul li a {
+    color: blue;
+    border: 1px solid #ccc; }
+
+a {
+  color: #337ab7; }
+  a:hover {
+    color: #22527b; }
+
+/*# sourceMappingURL=test.map */"
+  ["map"]=>
+  string(786) "{
+	"version": 3,
+	"file": "stdin.css",
+	"sources": [
+		"stdin",
+		"tests/resources/scss/nested.scss",
+		"tests/resources/scss/more/links.scss"
+	],
+	"sourcesContent": [
+		"@import \"nested.scss\"; @import \"more/links\";",
+		"nav {\n  ul {\n    li {\n      display: inline-block;\n      a {\n        color: blue;\n        border: 1px solid #ccc;\n      }\n    }\n  }\n}\n",
+		"$link-color: #337ab7;\na {\n\tcolor: $link-color;\n\t&:hover {\n\t\tcolor: darken($link-color, 15%);\n\t}\n}"
+	],
+	"names": [],
+	"mappings": "ACAA,AAEI,GAFD,CACD,EAAE,CACA,EAAE,CAAC;EACD,OAAO,EAAE,YAAY,GAKtB;EARL,AAIM,GAJH,CACD,EAAE,CACA,EAAE,CAEA,CAAC,CAAC;IACA,KAAK,EAAE,IAAI;IACX,MAAM,EAAE,cAAc,GACvB;;ACNP,AAAA,CAAC,CAAC;EACD,KAAK,EAFO,OAAO,GAMnB;EALD,AAEC,CAFA,AAEA,MAAO,CAAC;IACP,KAAK,EAAE,OAAwB,GAC/B"
+}"
+}

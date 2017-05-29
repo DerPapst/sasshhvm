@@ -1,0 +1,53 @@
+object(Sass\Types\SassNull)#1 (0) {
+}
+object(Sass\Types\SassBoolean)#1 (1) {
+  ["value":"Sass\Types\SassBoolean":private]=>
+  bool(true)
+}
+object(Sass\Types\SassNumber)#1 (2) {
+  ["value":"Sass\Types\SassNumber":private]=>
+  float(5)
+  ["unit":"Sass\Types\SassNumber":private]=>
+  string(0) ""
+}
+object(Sass\Types\SassString)#1 (2) {
+  ["value":"Sass\Types\SassString":private]=>
+  string(6) "string"
+  ["isQuoted":"Sass\Types\SassString":private]=>
+  bool(false)
+}
+object(Sass\Types\SassList)#2 (2) {
+  ["list"]=>
+  object(HH\Vector)#3 (1) {
+    [0]=>
+    object(Sass\Types\SassMap)#8 (1) {
+      ["map"]=>
+      object(HH\Map)#9 (1) {
+        ["Sass\Types\SassString::k"]=>
+        object(Sass\Types\SassMapPair)#11 (2) {
+          ["k":protected]=>
+          object(Sass\Types\SassString)#10 (2) {
+            ["value":"Sass\Types\SassString":private]=>
+            string(1) "k"
+            ["isQuoted":"Sass\Types\SassString":private]=>
+            bool(false)
+          }
+          ["v":protected]=>
+          object(Sass\Types\SassString)#6 (2) {
+            ["value":"Sass\Types\SassString":private]=>
+            string(1) "v"
+            ["isQuoted":"Sass\Types\SassString":private]=>
+            bool(false)
+          }
+        }
+      }
+    }
+  }
+  ["separator"]=>
+  string(1) ","
+}
+caught exception 'InvalidArgumentException' with message 'Supplied value of type object could not converted to a SassValue.' in %s/tests/types/convert.php:17
+Stack trace:
+#0 %s/tests/types/convert.php(17): Sass\Types\SassValue::cs()
+#1 %s/tests/types/convert.php(24): Sass\Types\testSassValueConvert()
+#2 {main}

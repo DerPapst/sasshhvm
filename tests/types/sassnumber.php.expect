@@ -1,0 +1,17 @@
+== Sass\Types\SassNumber ==
+Create SassNumber: 0
+Test defaults
+    value === 0: bool(true)
+    unit === '': bool(true)
+Set value to 10 and unit to 'px': 10px
+    value === 10: bool(true)
+    unit === 'px': bool(true)
+New number with value 53.5 and unit '%': 53.5%
+    value === 53.5: bool(true)
+    unit === '%': bool(true)
+Equality:
+    equals own identity: bool(true)
+    equals its clone: bool(true)
+    change the clone: Original: 53.5% <-> Clone: 100%
+    original still equals its clone: bool(false)
+    equals SassNull: bool(false)

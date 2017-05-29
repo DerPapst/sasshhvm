@@ -1,0 +1,6 @@
+body {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAAcklEQVR4AZ3QxQGEQBAAwQltNv9QCOKEk/4XbtUszFyzo9OZ67NZ5ud3sM5LMC/BvATzEsxLMC/BvITyEsxLMC/BvATzEshLOC+wyvd++ykBvH/hnBIbkEScEnFKxCkRp0ScEnFKxCkRp0ScEnFMxCnxBLYqWQHR6g21AAAAAElFTkSuQmCC");
+    background-size: 16px 16px;
+}
+
+

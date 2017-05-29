@@ -1,0 +1,22 @@
+object(HH\ImmMap)#2 (0) {
+}
+object(HH\ImmMap)#5 (3) {
+  ["importer-1"]=>
+  int(0)
+  ["importer-2"]=>
+  int(10)
+  ["importer-3"]=>
+  int(-3)
+}
+object(HH\ImmMap)#5 (2) {
+  ["importer-1"]=>
+  int(0)
+  ["importer-3"]=>
+  int(-3)
+}
+object(HH\ImmMap)#5 (2) {
+  ["importer-1"]=>
+  int(0)
+  ["importer-3"]=>
+  int(30)
+}
