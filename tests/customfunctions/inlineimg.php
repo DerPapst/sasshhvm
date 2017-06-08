@@ -13,9 +13,9 @@ function demoInlineImage(): void
             ->setStyle(Sass::STYLE_EXPANDED)
             ->setIndent("    ")
             ->addFunction('inline-image($url)', function (ImmVector<SassValue> $args): SassValue {
-                invariant($args->count() === 1, 'There is exactly one argument.');
+                invariant($args->count() === 1, 'There should be only one element in the provided arguments vector.');
                 $url = $args[0];
-                invariant($url instanceof SassString, 'First argument is of type SassString.');
+                invariant($url instanceof SassString, 'The first argument should be of type SassString.');
 
                 $url->unquote();
                 if (!is_file($url.'') || !is_readable($url.'')) {
@@ -25,11 +25,11 @@ function demoInlineImage(): void
                 return SassValue::cs('url("data:image/png;base64,'.$img.'")');
             })
             ->addFunction('image-size($url, $factor:1)', function (ImmVector<SassValue> $args): SassValue {
-                invariant($args->count() === 2, 'There is exactly two arguments.');
+                invariant($args->count() === 2, 'There should be exactly two elements in the provided arguments vector.');
                 $url = $args[0];
                 $factor = $args[1];
-                invariant($url instanceof SassString, 'First argument is of type SassString.');
-                invariant($factor instanceof SassNumber, 'Second argument is of type SassNumber.');
+                invariant($url instanceof SassString, 'The first argument should be of type SassString.');
+                invariant($factor instanceof SassNumber, 'The second argument should be of type SassNumber.');
 
                 $url->unquote();
                 if (!is_file($url.'') || !is_readable($url.'')) {

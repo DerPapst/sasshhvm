@@ -19,7 +19,7 @@ function testConvert(): void
         ->setStyle(Sass::STYLE_EXPANDED)
         ->setIndent('    ')
         ->addFunction('convert($arg)', function (ImmVector<SassValue> $args): SassValue {
-            invariant($args->count() === 1, 'There is only one element in the provided args.');
+            invariant($args->count() === 1, 'There should be only one element in the provided arguments vector.');
             $value = $args[0];
             echo 'convert('.get_class($value)."):\n";
             echo '    '.$value."\n";
