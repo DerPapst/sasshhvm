@@ -65,17 +65,15 @@ const char* CallbackBridge<T>::getMessageFromThrowable(const Object& o) {
       || o->instanceof(SystemLib::s_ErrorClass)
     );
 
-    auto const info = o->getProp(
+    auto const rval = o->getProp(
       o->instanceof(SystemLib::s_ExceptionClass)
         ? SystemLib::s_ExceptionClass
         : SystemLib::s_ErrorClass,
       s_Exception_message.get()
     );
-    if (info.accessible && info.prop) {
-      auto& val = tvAsCVarRef(info.prop);
-      if (val.isString()) {
-        return val.toCStrRef().c_str();
-      }
+    if (rval.has_val() && rval.type() == KindOfString) {
+      auto val = tvCastToString(rval.tv());
+      return val.c_str();
     }
   } catch (...) {}
 

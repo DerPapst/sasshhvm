@@ -8,4 +8,7 @@ run-test
 .hhconfig
 make_hhi.php
 install_manifest.txt
+tests/**/*.out
+tests/**/*.diff
+tests/**/*.repo
 

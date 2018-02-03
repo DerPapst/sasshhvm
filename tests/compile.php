@@ -22,4 +22,6 @@ function testCompile(): void
     }
 }
 
-testCompile();
+if (count(get_included_files()) === 1) {
+    testCompile();
+}

@@ -11,7 +11,7 @@ function testSass2Scss(): void
             $styles[$c] = $v;
         }
     }
-    ksort($styles);
+    ksort(&$styles);
     print_r(array_keys($styles));
 
     $scss = Sass::sass2scss(file_get_contents('tests/resources/scss/nested.sass'), Sass::SASS2SCSS_PRETTIFY_0);

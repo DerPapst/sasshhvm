@@ -16,7 +16,7 @@ Stack trace:
 
 Previous: Error: Call to undefined function Sass\idonotexist() in %s/tests/customimporters/engineexception_php5.php:13
 Stack trace:
-#0 (): Closure$Sass\Sass\testCIEngineException()
+#0 (): Closure$Sass\testCIEngineException()
 #1 %s/tests/customimporters/engineexception_php5.php(18): Sass\Sass->compile()
 #2 %s/tests/customimporters/engineexception_php5.php(30): Sass\testCIEngineException()
 #3 %s/tests/customimporters/engineexception_php7.php(3): include()

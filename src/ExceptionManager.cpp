@@ -51,7 +51,7 @@ void ExceptionManager::setLast(Variant e) {
 
 void ExceptionManager::resetLast() {
   if (exceptionSet) {
-    exception = null_variant;
+    exception = uninit_variant;
   }
   exceptionSet = false;
 }
@@ -67,9 +67,7 @@ Object ExceptionManager::createException(StaticString exceptionName, Array args)
   assert(c_ExceptionClass);
   Object exception{c_ExceptionClass};
 
-  TypedValue ret;
-  g_context->invokeFunc(&ret, c_ExceptionClass->getCtor(), args, exception.get());
-  tvRefcountedDecRef(&ret);
+  tvDecRefGen(g_context->invokeFunc(c_ExceptionClass->getCtor(), args, exception.get()));
   return exception;
 }
 
@@ -93,12 +91,12 @@ Object ExceptionManager::createSassException(const String& message, const String
     if (jmesg.exists(s_Property_line) && !jmesg[s_Property_line].isNull()) {
       exParams.set(3, Variant(jmesg[s_Property_line].toInt64()));
     } else {
-      exParams.set(3, null_variant);
+      exParams.set(3, uninit_variant);
     }
     if (jmesg.exists(s_Property_column) && !jmesg[s_Property_column].isNull()) {
       exParams.set(4, Variant(jmesg[s_Property_column].toInt64()));
     } else {
-      exParams.set(4, null_variant);
+      exParams.set(4, uninit_variant);
     }
     if (jmesg.exists(s_Property_formatted) && !jmesg[s_Property_formatted].isNull()) {
       exParams.set(5, jmesg[s_Property_formatted].toString());
@@ -106,7 +104,7 @@ Object ExceptionManager::createSassException(const String& message, const String
       exParams.set(5, null_string);
     }
   } else {
-    exParams = make_packed_array(message, code, null_string, null_variant, null_variant, null_string);
+    exParams = make_packed_array(message, code, null_string, uninit_variant, uninit_variant, null_string);
   }
 
   if (instance()->hasLast()) {
@@ -117,12 +115,18 @@ Object ExceptionManager::createSassException(const String& message, const String
   return createException(s_SassException, exParams);
 }
 
-Object ExceptionManager::convertFatalToErrorException(FatalErrorException h) {
-  auto fileAndLine = h.getFileAndLine();
-  auto trace = h.getBacktrace();
+Object ExceptionManager::convertFatalToErrorException(FatalErrorException throwable) {
+  auto fileAndLine = throwable.getFileAndLine();
+  auto trace = throwable.getBacktrace();
   auto e = createException(
     s_ErrorException,
-    make_packed_array(String(h.getMessage()), 0, k_E_ERROR, fileAndLine.first, fileAndLine.second)
+    make_packed_array(
+      String(throwable.getMessage()),
+      0,
+      (int)ErrorMode::ERROR,
+      fileAndLine.first,
+      fileAndLine.second
+    )
   );
   if (trace.exists(0) && trace.exists(1)
     && !trace[0].toArray().exists(s_Property_function)
@@ -135,7 +139,8 @@ Object ExceptionManager::convertFatalToErrorException(FatalErrorException h) {
   }
   auto const traceIdx = SystemLib::s_ExceptionClass->lookupDeclProp(s_Property_trace.get());
   if (traceIdx != kInvalidSlot) {
-    cellMove(make_tv<KindOfArray>(trace.detach()), e->propVec()[traceIdx]);
+    auto const trace_lval = e->propLvalAtOffset(traceIdx);
+    cellMove(make_tv<KindOfArray>(trace.detach()), trace_lval);
   }
   return e;
 }

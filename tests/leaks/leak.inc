@@ -5,7 +5,7 @@ function leakTest((function (): void) $fn, bool $output, bool $surpressFnOut = t
     $a = memory_get_usage(true);
 
     if ($surpressFnOut) ob_start();
-    for ($i = 0; $i < 1000; $i++) {
+    for ($i = 0; $i < 2000; $i++) {
         $fn();
     }
     if ($surpressFnOut) ob_end_clean();

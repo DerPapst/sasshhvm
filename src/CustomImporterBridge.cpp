@@ -81,9 +81,7 @@ Sass_Import* CustomImporterBridge::get_importer_entry(const Variant& val) const 
 
   const Func* func = obj->getVMClass()->lookupMethod(s_Type_SassImportMethod_finalize.get());
 
-  TypedValue ret;
-  g_context->invokeFunc(&ret, func, init_null_variant, obj.get());
-  tvRefcountedDecRef(&ret);
+  tvDecRefGen(g_context->invokeFunc(func, init_null_variant, obj.get()));
 
   Variant source = obj->o_get("source", true, s_Type_SassImport_className);
   Variant srcmap = obj->o_get("srcmap", true, s_Type_SassImport_className);

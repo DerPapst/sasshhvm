@@ -7,7 +7,7 @@ if [ ! -z "${REALPATH}" ]; then
     DIRNAME=`realpath ${DIRNAME}`
 fi
 
-if [ "$HPHP_HOME" != "" ]; then
+if [ "$HPHP_HOME" != "" ] && [ -x "${HPHP_HOME}/hphp/hhvm/hhvm" ]; then
     HHVM="${HPHP_HOME}/hphp/hhvm/hhvm"
     TESTRUNNER="${HPHP_HOME}/hphp/test/run"
 else

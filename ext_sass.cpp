@@ -75,12 +75,12 @@ struct Sass_Context_Wrapper {
 };
 
 struct Sass_Context_Wrapper* sass_make_context_wrapper() {
-  return (Sass_Context_Wrapper*)calloc(1, sizeof(Sass_Context_Wrapper));
+  return (Sass_Context_Wrapper*)safe_calloc(1, sizeof(Sass_Context_Wrapper));
 }
 
-struct Sass_Context_Wrapper* sass_make_data_context_wrapper(char* source_string) {
+struct Sass_Context_Wrapper* sass_make_data_context_wrapper(const String& source) {
   struct Sass_Context_Wrapper* ctx_w = sass_make_context_wrapper();
-  ctx_w->dctx = sass_make_data_context(source_string);
+  ctx_w->dctx = sass_make_data_context(sass_copy_c_string(source.c_str()));
   ctx_w->ctx = sass_data_context_get_context(ctx_w->dctx);
   return ctx_w;
 }
@@ -136,7 +136,6 @@ Sass_Import_List custom_header(const char* cur_path, Sass_Importer_Entry cb, str
 }
 
 static void set_sass_options(ObjectData* obj, struct Sass_Options* opts) {
-
   Array fnCallbacks = obj->o_get("userFunctions", true, s_Sass).toArray();
   if (!fnCallbacks.empty()) {
     Sass_Function_List fn_list = sass_make_function_list(fnCallbacks.length());
@@ -144,7 +143,7 @@ static void set_sass_options(ObjectData* obj, struct Sass_Options* opts) {
     int64_t i = 0;
     for (ArrayIter fn_iter(fnCallbacks); fn_iter; ++fn_iter, ++i) {
       String signature(fn_iter.first().toString());
-      Variant callback = fn_iter.secondRefPlus();
+      Variant callback = fn_iter.second();
 
       CustomFunctionBridge *bridge = new CustomFunctionBridge(callback);
 
@@ -165,7 +164,7 @@ static void set_sass_options(ObjectData* obj, struct Sass_Options* opts) {
 
     int64_t i = 0;
     for (ArrayIter fn_iter(fnImportCallbacks); fn_iter; ++fn_iter, ++i) {
-      Variant v = fn_iter.secondRefPlus();
+      Variant v = fn_iter.second();
       if (!v.isArray()) {
         continue;
       }
@@ -211,10 +210,12 @@ static void set_sass_options(ObjectData* obj, struct Sass_Options* opts) {
     // create list of all custom functions
     Sass_Importer_List c_headers = sass_make_importer_list(1);
     if (!c_headers) {
-      throw ExceptionManager::createSassException(
-        String::FromCStr("Couldn't allocate enough memory for the custom header."),
-        String::FromCStr(""),
-        54550001
+      throw_object(
+        ExceptionManager::createSassException(
+          String::FromCStr("Couldn't allocate enough memory for the custom header."),
+          String::FromCStr(""),
+          54550001
+        )
       );
     }
     // put the only function in this plugin to the list
@@ -303,8 +304,9 @@ void sass_free_context_wrapper(struct Sass_Context_Wrapper* ctx_w) {
   if (ctx_w->dctx) {
     sass_delete_data_context(ctx_w->dctx);
   } else if (ctx_w->fctx) {
-      sass_delete_file_context(ctx_w->fctx);
+    sass_delete_file_context(ctx_w->fctx);
   }
+  free(ctx_w);
 }
 
 static Array compileScss(ObjectData* obj, struct Sass_Context_Wrapper* ctx_w) {
@@ -338,7 +340,7 @@ static Array compileScss(ObjectData* obj, struct Sass_Context_Wrapper* ctx_w) {
     String exJson = String::FromCStr(sass_context_get_error_json(ctx_w->ctx));
     sass_free_context_wrapper(ctx_w);
 
-    throw ExceptionManager::createSassException(exMsg, exJson, status);
+    throw_object(ExceptionManager::createSassException(exMsg, exJson, status));
   }
 
   Array response = Array::Create();
@@ -361,8 +363,7 @@ static Array compileScss(ObjectData* obj, struct Sass_Context_Wrapper* ctx_w) {
 static String HHVM_METHOD(Sass, compile, const String& source) {
   VMRegAnchor _;
 
-  struct Sass_Context_Wrapper* ctx_w
-    = sass_make_data_context_wrapper(strdup(source.c_str()));
+  struct Sass_Context_Wrapper* ctx_w = sass_make_data_context_wrapper(source);
 
   Array response = compileScss(this_, ctx_w);
 
@@ -372,8 +373,7 @@ static String HHVM_METHOD(Sass, compile, const String& source) {
 static Array HHVM_METHOD(Sass, compileWithMap, const String& source, const String& mapfile) {
   VMRegAnchor _;
 
-  struct Sass_Context_Wrapper* ctx_w
-    = sass_make_data_context_wrapper(strdup(source.c_str()));
+  struct Sass_Context_Wrapper* ctx_w = sass_make_data_context_wrapper(source);
   struct Sass_Options* opts = sass_context_get_options(ctx_w->ctx);
 
   sass_option_set_source_map_file(opts, mapfile.c_str());
@@ -443,7 +443,7 @@ static String HHVM_STATIC_METHOD(SassTypesString, unquoteNative, const String& s
 
 static class SassExtension : public Extension {
  public:
-  SassExtension() : Extension("sass", "0.2-dev") {}
+  SassExtension() : Extension("sass", "0.3-dev") {}
   virtual void moduleInit() {
     HHVM_MALIAS(Sass\\Sass, compile, Sass, compile);
     HHVM_MALIAS(Sass\\Sass, compileWithMap, Sass, compileWithMap);

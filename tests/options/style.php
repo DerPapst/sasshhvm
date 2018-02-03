@@ -34,7 +34,7 @@ function testStyle(): void
             $styles[$c] = (int)$v;
         }
     }
-    ksort($styles);
+    ksort(&$styles);
     print_r(array_keys($styles));
 
     foreach ($styles as $c => $v) {

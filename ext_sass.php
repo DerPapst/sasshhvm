@@ -35,8 +35,8 @@ class Sass
 
     private array<string> $includePaths = [];
     private int $precision = 5;
-    private int $style = self::STYLE_NESTED;
-    private int $syntax = self::SYNTAX_SCSS;
+    private int $style = 0;//self::STYLE_NESTED;
+    private int $syntax = 1;//self::SYNTAX_SCSS;
     private bool $sourceComments = false;
     private ?string $linefeed = null;
     private ?string $indent = null;

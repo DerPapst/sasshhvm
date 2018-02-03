@@ -68,17 +68,14 @@ Variant SassTypesFactory::to_php_number(Sass_Value* v) {
 
   const Func* func = number->getVMClass()->lookupMethod(s_Type_SassValueMethod_setValue.get());
 
-  TypedValue ret;
-  g_context->invokeFunc(
-    &ret,
+  tvDecRefGen(g_context->invokeFunc(
     func,
     make_packed_array(
       sass_number_get_value(v),
       String(sass_number_get_unit(v))
     ),
     number.get()
-  );
-  tvRefcountedDecRef(&ret);
+  ));
 
   return number;
 }
@@ -88,26 +85,20 @@ Variant SassTypesFactory::to_php_string(Sass_Value* v) {
 
   const Func* func = str->getVMClass()->lookupMethod(s_Type_SassValueMethod_setValue.get());
 
-  TypedValue ret;
-  g_context->invokeFunc(
-    &ret,
+  tvDecRefGen(g_context->invokeFunc(
     func,
     make_packed_array(
       String(sass_string_get_value(v))
     ),
     str.get()
-  );
-  tvRefcountedDecRef(&ret);
+  ));
 
   if (sass_string_is_quoted(v)) {
-    TypedValue ret;
-    g_context->invokeFunc(
-      &ret,
+    tvDecRefGen(g_context->invokeFunc(
       str->getVMClass()->lookupMethod(StaticString("quote").get()),
       init_null_variant,
       str.get()
-    );
-    tvRefcountedDecRef(&ret);
+    ));
   }
 
   return str;
@@ -118,14 +109,11 @@ Variant SassTypesFactory::to_php_boolean(Sass_Value* v) {
 
   const Func* func = boolean->getVMClass()->lookupMethod(s_Type_SassValueMethod_setValue.get());
 
-  TypedValue ret;
-  g_context->invokeFunc(
-    &ret,
+  tvDecRefGen(g_context->invokeFunc(
     func,
     make_packed_array(sass_boolean_get_value(v)),
     boolean.get()
-  );
-  tvRefcountedDecRef(&ret);
+  ));
 
   return boolean;
 }
@@ -135,9 +123,7 @@ Variant SassTypesFactory::to_php_color(Sass_Value* v) {
 
   const Func* func = color->getVMClass()->lookupMethod(s_Type_SassValueMethod_setRGB.get());
 
-  TypedValue ret;
-  g_context->invokeFunc(
-    &ret,
+  tvDecRefGen(g_context->invokeFunc(
     func,
     make_packed_array(
       static_cast<std::int64_t>(std::round(sass_color_get_r(v))),
@@ -146,8 +132,7 @@ Variant SassTypesFactory::to_php_color(Sass_Value* v) {
       sass_color_get_a(v)
     ),
     color.get()
-  );
-  tvRefcountedDecRef(&ret);
+  ));
 
   return color;
 }
@@ -158,7 +143,6 @@ Variant SassTypesFactory::to_php_list(Sass_Value* v) {
 
   const Func* funcSetSeparator = list->getVMClass()->lookupMethod(s_Type_SassValueMethod_setSeparator.get());
   const Func* funcAddAll = list->getVMClass()->lookupMethod(s_Type_SassValueMethod_addAll.get());
-  TypedValue dummy;
 
   int64_t i = 0;
   int64_t n = sass_list_get_length(v);
@@ -167,16 +151,13 @@ Variant SassTypesFactory::to_php_list(Sass_Value* v) {
     data.append(to_php(sass_list_get_value(v, i)));
   }
 
-  g_context->invokeFunc(
-    &dummy,
+  tvDecRefGen(g_context->invokeFunc(
     funcSetSeparator,
     make_packed_array(String(SASS_COMMA == sass_list_get_separator(v) ? "," : " ")),
     list.get()
-  );
-  tvRefcountedDecRef(&dummy);
+  ));
 
-  g_context->invokeFunc(&dummy, funcAddAll, make_packed_array(data), list.get());
-  tvRefcountedDecRef(&dummy);
+  tvDecRefGen(g_context->invokeFunc(funcAddAll, make_packed_array(data), list.get()));
 
   return list;
 }
@@ -189,17 +170,14 @@ Variant SassTypesFactory::to_php_map(Sass_Value* v) {
   int64_t n = sass_map_get_length(v);
 
   for (; i < n; ++i) {
-    TypedValue dummy;
-    g_context->invokeFunc(
-      &dummy,
+    tvDecRefGen(g_context->invokeFunc(
       funcSet,
       PackedArrayInit(2)
          .append(to_php(sass_map_get_key(v, i)))
          .append(to_php(sass_map_get_value(v, i)))
          .toArray(),
       map.get()
-    );
-    tvRefcountedDecRef(&dummy);
+    ));
   }
 
   return map;
@@ -210,14 +188,11 @@ Variant SassTypesFactory::to_php_warning(Sass_Value* v) {
 
   const Func* func = warning->getVMClass()->lookupMethod(s_Type_SassValueMethod_setMessage.get());
 
-  TypedValue ret;
-  g_context->invokeFunc(
-    &ret,
+  tvDecRefGen(g_context->invokeFunc(
     func,
     make_packed_array(String(sass_warning_get_message(v))),
     warning.get()
-  );
-  tvRefcountedDecRef(&ret);
+  ));
 
   return warning;
 }
@@ -227,14 +202,11 @@ Variant SassTypesFactory::to_php_error(Sass_Value* v) {
 
   const Func* func = error->getVMClass()->lookupMethod(s_Type_SassValueMethod_setMessage.get());
 
-  TypedValue ret;
-  g_context->invokeFunc(
-    &ret,
+  tvDecRefGen(g_context->invokeFunc(
     func,
     make_packed_array(String(sass_error_get_message(v))),
     error.get()
-  );
-  tvRefcountedDecRef(&ret);
+  ));
 
   return error;
 }
@@ -319,8 +291,9 @@ union Sass_Value* SassTypesFactory::to_sass_list(const Object& val) {
   }
 
   const Func* func = val->getVMClass()->lookupMethod(s_Type_SassValueMethod_isValid.get());
-  Variant ret;
-  g_context->invokeFunc(ret.asTypedValue(), func, init_null_variant, val.get());
+  auto ret = Variant::attach(
+    g_context->invokeFunc(func, init_null_variant, val.get())
+  );
   if (!ret.isBoolean() || !ret.toBoolean()) {
     throw Exception(s_Exception_circularReferenceMessage.toCppString());
   }
@@ -338,8 +311,9 @@ union Sass_Value* SassTypesFactory::to_sass_list(const Object& val) {
 
 union Sass_Value* SassTypesFactory::to_sass_map(const Object& val) {
   const Func* func = val->getVMClass()->lookupMethod(s_Type_SassValueMethod_isValid.get());
-  Variant ret;
-  g_context->invokeFunc(ret.asTypedValue(), func, init_null_variant, val.get());
+  auto ret = Variant::attach(
+    g_context->invokeFunc(func, init_null_variant, val.get())
+  );
   if (!ret.isBoolean() || !ret.toBoolean()) {
     throw Exception(s_Exception_circularReferenceMessage.toCppString());
   }

@@ -14,7 +14,7 @@ function testEmbedMap(): void
         $r = $sass->compileFile('tests/resources/scss/import.scss');
         echo $r."\n\n";
         $m = [];
-        if (preg_match('/json;base64,([a-zA-Z0-9=]+)/s', $r, $m)) {
+        if (preg_match('/json;base64,([a-zA-Z0-9=]+)/s', $r, &$m)) {
             echo "Embedded map: "; var_dump(base64_decode($m[1]));
         } else {
             echo "Embedded map not found.\n";
