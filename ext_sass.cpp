@@ -443,7 +443,7 @@ static String HHVM_STATIC_METHOD(SassTypesString, unquoteNative, const String& s
 
 static class SassExtension : public Extension {
  public:
-  SassExtension() : Extension("sass", "0.3-dev") {}
+  SassExtension() : Extension("sass", "0.4-dev") {}
   virtual void moduleInit() {
     HHVM_MALIAS(Sass\\Sass, compile, Sass, compile);
     HHVM_MALIAS(Sass\\Sass, compileWithMap, Sass, compileWithMap);
