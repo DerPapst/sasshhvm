@@ -16,8 +16,9 @@
 
 #include "hphp/runtime/ext/extension.h"
 #include "hphp/runtime/base/array-init.h"
-#include "hphp/runtime/base/execution-context.h"
 #include "hphp/runtime/base/backtrace.h"
+#include "hphp/runtime/base/builtin-functions.h"
+#include "hphp/runtime/base/execution-context.h"
 #include "hphp/runtime/ext/std/ext_std_errorfunc.h"
 #include "hphp/runtime/ext/std/ext_std_variable.h"
 #include "hphp/runtime/vm/native-data.h"
@@ -58,17 +59,6 @@ void ExceptionManager::resetLast() {
 
 bool ExceptionManager::hasLast() {
   return exceptionSet;
-}
-
-Object ExceptionManager::createException(StaticString exceptionName, Array args) {
-  static Class* c_ExceptionClass;
-
-  c_ExceptionClass = Unit::lookupClass(exceptionName.get());
-  assert(c_ExceptionClass);
-  Object exception{c_ExceptionClass};
-
-  tvDecRefGen(g_context->invokeFunc(c_ExceptionClass->getCtor(), args, exception.get()));
-  return exception;
 }
 
 Object ExceptionManager::createSassException(const String& message, const String& jsonMessage, int64_t code) {
@@ -112,13 +102,13 @@ Object ExceptionManager::createSassException(const String& message, const String
     instance()->resetLast();
   }
 
-  return createException(s_SassException, exParams);
+  return create_object(s_SassException, exParams);
 }
 
 Object ExceptionManager::convertFatalToErrorException(FatalErrorException throwable) {
   auto fileAndLine = throwable.getFileAndLine();
   auto trace = throwable.getBacktrace();
-  auto e = createException(
+  auto e = create_object(
     s_ErrorException,
     make_packed_array(
       String(throwable.getMessage()),

@@ -662,6 +662,20 @@ namespace Sass\Types {
  */
 abstract class SassValue
 {
+    const int OP_AND = 0;
+    const int OP_OR = 0;
+    const int OP_EQ = 0;
+    const int OP_NEQ = 0;
+    const int OP_GT = 0;
+    const int OP_GTE = 0;
+    const int OP_LT = 0;
+    const int OP_LTE = 0;
+    const int OP_ADD = 0;
+    const int OP_SUB = 0;
+    const int OP_MUL = 0;
+    const int OP_DIV = 0;
+    const int OP_MOD = 0;
+
     /**
      * Check if this `SassValue` equals another `SassValue`.
      *
@@ -670,6 +684,17 @@ abstract class SassValue
      * @return - `true` when it matches, `false` otherwise.
      */
     abstract public function equals(SassValue $value): bool;
+
+    /**
+     * Execute sass operations with two `SassValue`s.
+     * Throws a `RuntimeException` if the operation fails.
+     *
+     * @param $operator - The operator. Use one of the `SassValue::OP_*` constants.
+     * @param $rh - The right hand `SassValue` to perform the operation with.
+     *
+     * @return - The new resulting `SassValue`.
+     */
+    final public function operate(int $operator, SassValue $rh): SassValue;
 
     /**
      * Return a string representation of this `SassValue`.

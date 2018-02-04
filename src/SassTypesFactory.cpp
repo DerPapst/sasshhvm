@@ -18,6 +18,7 @@
 #include "hphp/runtime/vm/native-data.h"
 
 #include "hphp/runtime/base/array-init.h"
+#include "hphp/runtime/base/builtin-functions.h"
 #include "hphp/runtime/vm/vm-regs.h"
 
 #include "../lib/libsass/include/sass.h"
@@ -48,8 +49,8 @@ const StaticString s_Type_SassValueMethod_setSeparator("setSeparator");
 const StaticString s_Type_SassValueMethod_set("set");
 const StaticString s_Type_SassValueMethod_isValid("isValid");
 
-const StaticString s_Exception_circularReferenceMessage("SassList and SassMap do not support circular references.");
-
+const StaticString s_ExceptionMessage_circularReference("SassList and SassMap do not support circular references.");
+const StaticString s_RuntimeExceptionClass("RuntimeException");
 
 Object SassTypesFactory::php_create_and_construct(StaticString classname) {
   static Class* c_class;
@@ -241,8 +242,13 @@ Variant SassTypesFactory::to_php(Sass_Value* v) {
       return to_php_error(v);
     }
   }
-  throw Exception("Unknown sass value can not be converted to php class.");
-  return to_php_null();
+  throw_object(
+    s_RuntimeExceptionClass,
+    make_packed_array(
+      String("Unknown sass value can not be converted to php class."),
+      54551061
+    )
+  );
 }
 
 union Sass_Value* SassTypesFactory::to_sass_null() {
@@ -295,7 +301,10 @@ union Sass_Value* SassTypesFactory::to_sass_list(const Object& val) {
     g_context->invokeFunc(func, init_null_variant, val.get())
   );
   if (!ret.isBoolean() || !ret.toBoolean()) {
-    throw Exception(s_Exception_circularReferenceMessage.toCppString());
+    throw_object(
+      s_RuntimeExceptionClass,
+      make_packed_array(s_ExceptionMessage_circularReference.get(), 54551060)
+    );
   }
 
   Array phplist = val->o_get("list", true, s_Type_SassList_className).toArray();
@@ -315,7 +324,10 @@ union Sass_Value* SassTypesFactory::to_sass_map(const Object& val) {
     g_context->invokeFunc(func, init_null_variant, val.get())
   );
   if (!ret.isBoolean() || !ret.toBoolean()) {
-    throw Exception(s_Exception_circularReferenceMessage.toCppString());
+    throw_object(
+      s_RuntimeExceptionClass,
+      make_packed_array(s_ExceptionMessage_circularReference.get(), 54551060)
+    );
   }
 
   Array phpmap = val->o_get("map", true, s_Type_SassMap_className).toArray();
@@ -377,7 +389,7 @@ union Sass_Value* SassTypesFactory::to_sass(const Variant& val) {
     return to_sass_null();
   }
 
-  String msg("Expected instance of Sass\\Types\\SassValue, got ");
+  String msg("Expected a supported instance of Sass\\Types\\SassValue, got ");
   if (val.isObject()) {
     msg += "instance of ";
     msg += val.toObject()->getClassName().c_str();
@@ -386,7 +398,10 @@ union Sass_Value* SassTypesFactory::to_sass(const Variant& val) {
   }
   msg += ".";
 
-  throw Exception(msg.toCppString());
+  throw_object(
+    s_RuntimeExceptionClass,
+    make_packed_array(msg, 54551062)
+  );
 }
 
 }

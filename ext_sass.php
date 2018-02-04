@@ -35,8 +35,8 @@ class Sass
 
     private array<string> $includePaths = [];
     private int $precision = 5;
-    private int $style = 0;//self::STYLE_NESTED;
-    private int $syntax = 1;//self::SYNTAX_SCSS;
+    private int $style = 0; //self::STYLE_NESTED;
+    private int $syntax = 1; //self::SYNTAX_SCSS;
     private bool $sourceComments = false;
     private ?string $linefeed = null;
     private ?string $indent = null;
@@ -1003,6 +1003,22 @@ namespace Sass\Types {
  */
 abstract class SassValue
 {
+    /*[[__Native
+    const int OP_AND = 0;
+    const int OP_OR = 0;
+    const int OP_EQ = 0;
+    const int OP_NEQ = 0;
+    const int OP_GT = 0;
+    const int OP_GTE = 0;
+    const int OP_LT = 0;
+    const int OP_LTE = 0;
+    const int OP_ADD = 0;
+    const int OP_SUB = 0;
+    const int OP_MUL = 0;
+    const int OP_DIV = 0;
+    const int OP_MOD = 0;
+    ]]*/
+
     /**
      * Check if this `SassValue` equals another `SassValue`.
      *
@@ -1011,6 +1027,18 @@ abstract class SassValue
      * @return - `true` when it matches, `false` otherwise.
      */
     abstract public function equals(SassValue $value): bool;
+
+    /**
+     * Execute sass operations with two `SassValue`s.
+     * Throws a `RuntimeException` if the operation fails.
+     *
+     * @param $operator - The operator. Use one of the `SassValue::OP_*` constants.
+     * @param $rh - The right hand `SassValue` to perform the operation with.
+     *
+     * @return - The new resulting `SassValue`.
+     */
+    <<__Native>>
+    final public function operate(int $operator, SassValue $rh): SassValue;
 
     /**
      * Return a string representation of this `SassValue`.
@@ -2149,6 +2177,7 @@ class SassList extends SassValue implements
     {
         if (!($value instanceof SassList)
             || ($value->count() != $this->count())
+            || ($value->getSeparator() != $this->getSeparator())
         ) {
             return false;
         }
@@ -2195,20 +2224,26 @@ class SassList extends SassValue implements
     public function __toString(): string
     {
         if ($this->recursionDetection) {
-            return '(*SassList RECURSION*)';
+            $listStr = '*SassList RECURSION*';
+        } else {
+            $this->recursionDetection = true;
+            $toStr = [];
+            foreach ($this->getIterator() as $value) {
+                $toStr[] = $value->__toString();
+            }
+            $this->recursionDetection = false;
+            $listStr = implode(trim($this->separator).' ', $toStr);
         }
-        $this->recursionDetection = true;
-        $toStr = [];
-        foreach ($this->getIterator() as $value) {
-            $toStr[] = $value->__toString();
-        }
-        $this->recursionDetection = false;
-        return '('.implode(trim($this->separator).' ', $toStr).')';
+
+        return '('.$listStr.')';
     }
 
     public function __debugInfo(): array
     {
-        return ['list' => $this->list, 'separator' => $this->separator];
+        return [
+            'list' => $this->list,
+            'separator' => $this->separator,
+        ];
     }
 }
 

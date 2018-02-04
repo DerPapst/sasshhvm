@@ -61,6 +61,23 @@ const StaticString s_SassImporter_callback("callback");
 const StaticString s_SassImporter_priority("priority");
 const StaticString s_SassHeader_content("content");
 
+const StaticString s_SassTypesSassValue("Sass\\Types\\SassValue");
+const StaticString s_OP_AND("OP_AND");
+const StaticString s_OP_OR("OP_OR");
+const StaticString s_OP_EQ("OP_EQ");
+const StaticString s_OP_NEQ("OP_NEQ");
+const StaticString s_OP_GT("OP_GT");
+const StaticString s_OP_GTE("OP_GTE");
+const StaticString s_OP_LT("OP_LT");
+const StaticString s_OP_LTE("OP_LTE");
+const StaticString s_OP_ADD("OP_ADD");
+const StaticString s_OP_SUB("OP_SUB");
+const StaticString s_OP_MUL("OP_MUL");
+const StaticString s_OP_DIV("OP_DIV");
+const StaticString s_OP_MOD("OP_MOD");
+
+const StaticString s_RuntimeExceptionClass("RuntimeException");
+
 #ifdef __WIN__
 const StaticString s_Glue(";");
 #else
@@ -427,6 +444,62 @@ static String HHVM_STATIC_METHOD(Sass, getSass2ScssVersion) {
   return String::FromCStr(sass2scss_version());
 }
 
+static Variant HHVM_METHOD(SassTypesValue, operate, int64_t op, const Variant& rh) {
+  VMRegAnchor _;
+
+  union Sass_Value* lhs = SassTypesFactory::to_sass(Variant(this_));
+  union Sass_Value* rhs = SassTypesFactory::to_sass(rh);
+  union Sass_Value* rs = 0;
+
+  switch ((enum Sass_OP)op) {
+    case Sass_OP::AND:
+    case Sass_OP::OR:
+    case Sass_OP::EQ:
+    case Sass_OP::NEQ:
+    case Sass_OP::GT:
+    case Sass_OP::GTE:
+    case Sass_OP::LT:
+    case Sass_OP::LTE:
+    case Sass_OP::ADD:
+    case Sass_OP::SUB:
+    case Sass_OP::MUL:
+    case Sass_OP::DIV:
+    case Sass_OP::MOD: {
+        rs = sass_value_op((enum Sass_OP)op, lhs, rhs);
+        break;
+    }
+    default: {
+        rs = sass_make_error("Invalid operator");
+        break;
+    }
+  }
+
+  sass_delete_value(rhs);
+  sass_delete_value(lhs);
+
+  if (UNLIKELY(sass_value_is_warning(rs))) {
+    auto message = String(sass_warning_get_message(rs));
+    sass_delete_value(rs);
+    throw_object(
+      s_RuntimeExceptionClass,
+      make_packed_array(message, 54551050)
+    );
+  } else if (sass_value_is_error(rs)) {
+    auto message = String(sass_error_get_message(rs));
+    sass_delete_value(rs);
+    throw_object(
+      s_RuntimeExceptionClass,
+      make_packed_array(message, 54551051)
+    );
+  }
+
+  Variant r = SassTypesFactory::to_php(rs);
+
+  sass_delete_value(rs);
+
+  return r;
+}
+
 static String HHVM_STATIC_METHOD(SassTypesString, quoteNative, const String& str) {
   char* quoted = sass_string_quote(str.c_str(), '*');
   String q(quoted);
@@ -496,6 +569,48 @@ static class SassExtension : public Extension {
     Native::registerClassConstant<KindOfInt64>(s_Sass.get(),
                                                s_SASS2SCSS_CONVERT_COMMENT.get(),
                                                SASS2SCSS_CONVERT_COMMENT);
+
+    HHVM_MALIAS(Sass\\Types\\SassValue, operate, SassTypesValue, operate);
+
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_AND.get(),
+                                               Sass_OP::AND);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_OR.get(),
+                                               Sass_OP::OR);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_EQ.get(),
+                                               Sass_OP::EQ);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_NEQ.get(),
+                                               Sass_OP::NEQ);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_GT.get(),
+                                               Sass_OP::GT);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_GTE.get(),
+                                               Sass_OP::GTE);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_LT.get(),
+                                               Sass_OP::LT);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_LTE.get(),
+                                               Sass_OP::LTE);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_ADD.get(),
+                                               Sass_OP::ADD);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_SUB.get(),
+                                               Sass_OP::SUB);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_MUL.get(),
+                                               Sass_OP::MUL);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_DIV.get(),
+                                               Sass_OP::DIV);
+    Native::registerClassConstant<KindOfInt64>(s_SassTypesSassValue.get(),
+                                               s_OP_MOD.get(),
+                                               Sass_OP::MOD);
 
     HHVM_STATIC_MALIAS(Sass\\Types\\SassString, quoteNative, SassTypesString, quoteNative);
     HHVM_STATIC_MALIAS(Sass\\Types\\SassString, unquoteNative, SassTypesString, unquoteNative);

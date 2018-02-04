@@ -1,0 +1,323 @@
+SassValue::OP_*: Array
+(
+    [OP_AND] => 0
+    [OP_OR] => 1
+    [OP_EQ] => 2
+    [OP_NEQ] => 3
+    [OP_GT] => 4
+    [OP_GTE] => 5
+    [OP_LT] => 6
+    [OP_LTE] => 7
+    [OP_ADD] => 8
+    [OP_SUB] => 9
+    [OP_MUL] => 10
+    [OP_DIV] => 11
+    [OP_MOD] => 12
+)
+
+== Test Category Bool ==
+and:
+    .test {
+        /*! exec_op(and, true, true) == (true and true) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(and, true, false) == (true and false) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+
+or:
+    .test {
+        /*! exec_op(or, true, false) == (true or false) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(or, false, false) == (false or false) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+
+
+== Test Category Compare ==
+eq:
+    .test {
+        /*! exec_op(eq, 42, 42px) == (42 == 42px) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(eq, 1%, 2%) == (1% == 2%) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(eq, 5.3em, 4.2em) == (5.3em == 4.2em) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(eq, red, #f00) == (red == #f00) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+
+neq:
+    .test {
+        /*! exec_op(neq, 42, 42px) == (42 != 42px) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(neq, 1%, 2%) == (1% != 2%) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(neq, 5.3em, 4.2em) == (5.3em != 4.2em) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(neq, red, #f00) == (red != #f00) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+
+gt:
+    .test {
+        /*! exec_op(gt, 42, 42px) == (42 > 42px) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(gt, 1%, 2%) == (1% > 2%) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(gt, 5.3em, 4.2em) == (5.3em > 4.2em) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+
+gte:
+    .test {
+        /*! exec_op(gte, 42, 42px) == (42 >= 42px) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(gte, 1%, 2%) == (1% >= 2%) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(gte, 5.3em, 4.2em) == (5.3em >= 4.2em) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+
+lt:
+    .test {
+        /*! exec_op(lt, 42, 42px) == (42 < 42px) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(lt, 1%, 2%) == (1% < 2%) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(lt, 5.3em, 4.2em) == (5.3em < 4.2em) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+
+lte:
+    .test {
+        /*! exec_op(lte, 42, 42px) == (42 <= 42px) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(lte, 1%, 2%) == (1% <= 2%) */
+        test-custom: true;
+        test-native: true;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(lte, 5.3em, 4.2em) == (5.3em <= 4.2em) */
+        test-custom: false;
+        test-native: false;
+        test-ok: true;
+    }
+
+
+== Test Category Math ==
+add:
+    .test {
+        /*! exec_op(add, 42px, 7) == (42px + 7) */
+        test-custom: 49px;
+        test-native: 49px;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(add, #a98645, #213543) == (#a98645 + #213543) */
+        test-custom: #cabb88;
+        test-native: #cabb88;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(add, 1, "2") == (1 + "2") */
+        test-custom: "12";
+        test-native: "12";
+        test-ok: true;
+    }
+
+sub:
+    .test {
+        /*! exec_op(sub, 42px, 7) == (42px - 7) */
+        test-custom: 35px;
+        test-native: 35px;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(sub, #a98645, #213543) == (#a98645 - #213543) */
+        test-custom: #885102;
+        test-native: #885102;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(sub, 1, "2") == (1 - "2") */
+        test-custom: 1-"2";
+        test-native: 1-"2";
+        test-ok: true;
+    }
+
+mul:
+    .test {
+        /*! exec_op(mul, 42px, 7) == (42px * 7) */
+        test-custom: 294px;
+        test-native: 294px;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(mul, #310425, #021521) == (#310425 * #021521) */
+        test-custom: #6254ff;
+        test-native: #6254ff;
+        test-ok: true;
+    }
+
+div:
+    .test {
+        /*! exec_op(div, 42px, 7) == (42px / 7) */
+        test-custom: 6px;
+        test-native: 6px;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(div, #a98645, #213543) == (#a98645 / #213543) */
+        test-custom: #050301;
+        test-native: #050301;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(div, 1, "2") == (1 / "2") */
+        test-custom: 1/"2";
+        test-native: 1/"2";
+        test-ok: true;
+    }
+
+mod:
+    .test {
+        /*! exec_op(mod, 42px, 9) == (42px % 9) */
+        test-custom: 6px;
+        test-native: 6px;
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(mod, #a98645, #213543) == (#a98645 % #213543) */
+        test-custom: #041c02;
+        test-native: #041c02;
+        test-ok: true;
+    }
+
+
+== Test Category Error ==
+lt:
+    red < #e00
+        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: Undefined operation: "red lt #ee0000".
+        Previous RuntimeException (C:54551051) on line 88 with message: Undefined operation: "red lt #ee0000".
+
+add:
+    3px + 3em
+        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: Incompatible units: 'em' and 'px'.
+        Previous RuntimeException (C:54551051) on line 88 with message: Incompatible units: 'em' and 'px'.
+
+sub:
+    rgba(0, 0, 0, 0.4) - #185af8
+        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: Alpha channels must be equal: rgba(0, 0, 0, 0.4) + #185af8.
+        Previous RuntimeException (C:54551051) on line 88 with message: Alpha channels must be equal: rgba(0, 0, 0, 0.4) + #185af8.
+
+mul:
+    1 * "2"
+        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: Undefined operation: "1 times "2"".
+        Previous RuntimeException (C:54551051) on line 88 with message: Undefined operation: "1 times "2"".
+
+div:
+    #a98645 / #213500
+        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: divided by 0
+        Previous RuntimeException (C:54551051) on line 88 with message: divided by 0
+
+mod:
+    1 % "2"
+        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: Undefined operation: "1 mod "2"".
+        Previous RuntimeException (C:54551051) on line 88 with message: Undefined operation: "1 mod "2"".
+
+
+== Test Category Inconsistencies ==
+add:
+    .test {
+        /*! exec_op(add, (5, 6), (7, 8)) == ((5, 6) + (7, 8)) */
+        test-custom: "5, 67, 8";
+        test-native: 5, 67, 8;
+        test-ok: true;
+    }
+
+
+Test to convert SassFakeValue to native sass_value:
+    Caught RuntimeException (C:54551062) on line 165 with message: Expected a supported instance of Sass\Types\SassValue, got instance of Sass\SassFakeValue.
+
+SassList equals same instance:
+bool(true)
+    Caught RuntimeException (C:54551060) on line 171 with message: SassList and SassMap do not support circular references.
+
+SassList < SassList:
+    Caught RuntimeException (C:54551051) on line 176 with message: Undefined operation: "4px lt (5px,)".
+

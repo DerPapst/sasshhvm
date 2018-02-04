@@ -2,12 +2,12 @@
 Value to be returned:
     int(5)
 
-Caught exception 'Sass\SassException' with message 'error in callback function func: Expected instance of Sass\Types\SassValue, got integer.' in %s/tests/customfunctions/returnvalues.php:25
+Caught exception 'Sass\SassException' with message 'error in callback function func: Expected a supported instance of Sass\Types\SassValue, got integer.' in %s/tests/customfunctions/returnvalues.php:25
 Source File: stdin
 Source Line: 1
 Source Column: 31
 Full message:
-Error: error in callback function func: Expected instance of Sass\Types\SassValue, got integer.
+Error: error in callback function func: Expected a supported instance of Sass\Types\SassValue, got integer.
 
        Backtrace:
        	stdin:1, in function `func`
@@ -16,6 +16,12 @@ Error: error in callback function func: Expected instance of Sass\Types\SassValu
 >> .test { width: 5px; content: func(); }
    ------------------------------^
 
+Stack trace:
+#0 %s/tests/customfunctions/returnvalues.php(25): Sass\Sass->compile()
+#1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
+#2 %s/tests/customfunctions/returnvalues.php(49): testCFReturnValues()
+#3 {main}
+Previous Exception: exception 'RuntimeException' with message 'Expected a supported instance of Sass\Types\SassValue, got integer.' in %s/tests/customfunctions/returnvalues.php:25
 Stack trace:
 #0 %s/tests/customfunctions/returnvalues.php(25): Sass\Sass->compile()
 #1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
@@ -30,12 +36,12 @@ Value to be returned:
       int(5)
     }
 
-Caught exception 'Sass\SassException' with message 'error in callback function func: Expected instance of Sass\Types\SassValue, got array.' in %s/tests/customfunctions/returnvalues.php:25
+Caught exception 'Sass\SassException' with message 'error in callback function func: Expected a supported instance of Sass\Types\SassValue, got array.' in %s/tests/customfunctions/returnvalues.php:25
 Source File: stdin
 Source Line: 1
 Source Column: 31
 Full message:
-Error: error in callback function func: Expected instance of Sass\Types\SassValue, got array.
+Error: error in callback function func: Expected a supported instance of Sass\Types\SassValue, got array.
 
        Backtrace:
        	stdin:1, in function `func`
@@ -49,18 +55,24 @@ Stack trace:
 #1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
 #2 %s/tests/customfunctions/returnvalues.php(49): testCFReturnValues()
 #3 {main}
+Previous Exception: exception 'RuntimeException' with message 'Expected a supported instance of Sass\Types\SassValue, got array.' in %s/tests/customfunctions/returnvalues.php:25
+Stack trace:
+#0 %s/tests/customfunctions/returnvalues.php(25): Sass\Sass->compile()
+#1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
+#2 %s/tests/customfunctions/returnvalues.php(49): testCFReturnValues()
+#3 {main}
 
 
 == Function called ==
 Value to be returned:
     string(6) "string"
 
-Caught exception 'Sass\SassException' with message 'error in callback function func: Expected instance of Sass\Types\SassValue, got string.' in %s/tests/customfunctions/returnvalues.php:25
+Caught exception 'Sass\SassException' with message 'error in callback function func: Expected a supported instance of Sass\Types\SassValue, got string.' in %s/tests/customfunctions/returnvalues.php:25
 Source File: stdin
 Source Line: 1
 Source Column: 31
 Full message:
-Error: error in callback function func: Expected instance of Sass\Types\SassValue, got string.
+Error: error in callback function func: Expected a supported instance of Sass\Types\SassValue, got string.
 
        Backtrace:
        	stdin:1, in function `func`
@@ -69,6 +81,12 @@ Error: error in callback function func: Expected instance of Sass\Types\SassValu
 >> .test { width: 5px; content: func(); }
    ------------------------------^
 
+Stack trace:
+#0 %s/tests/customfunctions/returnvalues.php(25): Sass\Sass->compile()
+#1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
+#2 %s/tests/customfunctions/returnvalues.php(49): testCFReturnValues()
+#3 {main}
+Previous Exception: exception 'RuntimeException' with message 'Expected a supported instance of Sass\Types\SassValue, got string.' in %s/tests/customfunctions/returnvalues.php:25
 Stack trace:
 #0 %s/tests/customfunctions/returnvalues.php(25): Sass\Sass->compile()
 #1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
@@ -90,12 +108,12 @@ Value to be returned:
 Value to be returned:
     bool(true)
 
-Caught exception 'Sass\SassException' with message 'error in callback function func: Expected instance of Sass\Types\SassValue, got boolean.' in %s/tests/customfunctions/returnvalues.php:25
+Caught exception 'Sass\SassException' with message 'error in callback function func: Expected a supported instance of Sass\Types\SassValue, got boolean.' in %s/tests/customfunctions/returnvalues.php:25
 Source File: stdin
 Source Line: 1
 Source Column: 31
 Full message:
-Error: error in callback function func: Expected instance of Sass\Types\SassValue, got boolean.
+Error: error in callback function func: Expected a supported instance of Sass\Types\SassValue, got boolean.
 
        Backtrace:
        	stdin:1, in function `func`
@@ -104,6 +122,12 @@ Error: error in callback function func: Expected instance of Sass\Types\SassValu
 >> .test { width: 5px; content: func(); }
    ------------------------------^
 
+Stack trace:
+#0 %s/tests/customfunctions/returnvalues.php(25): Sass\Sass->compile()
+#1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
+#2 %s/tests/customfunctions/returnvalues.php(49): testCFReturnValues()
+#3 {main}
+Previous Exception: exception 'RuntimeException' with message 'Expected a supported instance of Sass\Types\SassValue, got boolean.' in %s/tests/customfunctions/returnvalues.php:25
 Stack trace:
 #0 %s/tests/customfunctions/returnvalues.php(25): Sass\Sass->compile()
 #1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
@@ -116,12 +140,12 @@ Value to be returned:
     object(stdClass)#2 (0) {
     }
 
-Caught exception 'Sass\SassException' with message 'error in callback function func: Expected instance of Sass\Types\SassValue, got instance of stdClass.' in %s/tests/customfunctions/returnvalues.php:25
+Caught exception 'Sass\SassException' with message 'error in callback function func: Expected a supported instance of Sass\Types\SassValue, got instance of stdClass.' in %s/tests/customfunctions/returnvalues.php:25
 Source File: stdin
 Source Line: 1
 Source Column: 31
 Full message:
-Error: error in callback function func: Expected instance of Sass\Types\SassValue, got instance of stdClass.
+Error: error in callback function func: Expected a supported instance of Sass\Types\SassValue, got instance of stdClass.
 
        Backtrace:
        	stdin:1, in function `func`
@@ -135,6 +159,12 @@ Stack trace:
 #1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
 #2 %s/tests/customfunctions/returnvalues.php(49): testCFReturnValues()
 #3 {main}
+Previous Exception: exception 'RuntimeException' with message 'Expected a supported instance of Sass\Types\SassValue, got instance of stdClass.' in %s/tests/customfunctions/returnvalues.php:25
+Stack trace:
+#0 %s/tests/customfunctions/returnvalues.php(25): Sass\Sass->compile()
+#1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
+#2 %s/tests/customfunctions/returnvalues.php(49): testCFReturnValues()
+#3 {main}
 
 
 == Function called ==
@@ -142,12 +172,12 @@ Value to be returned:
     object(SassFakeValue)#3 (0) {
     }
 
-Caught exception 'Sass\SassException' with message 'error in callback function func: Expected instance of Sass\Types\SassValue, got instance of SassFakeValue.' in %s/tests/customfunctions/returnvalues.php:25
+Caught exception 'Sass\SassException' with message 'error in callback function func: Expected a supported instance of Sass\Types\SassValue, got instance of SassFakeValue.' in %s/tests/customfunctions/returnvalues.php:25
 Source File: stdin
 Source Line: 1
 Source Column: 31
 Full message:
-Error: error in callback function func: Expected instance of Sass\Types\SassValue, got instance of SassFakeValue.
+Error: error in callback function func: Expected a supported instance of Sass\Types\SassValue, got instance of SassFakeValue.
 
        Backtrace:
        	stdin:1, in function `func`
@@ -156,6 +186,12 @@ Error: error in callback function func: Expected instance of Sass\Types\SassValu
 >> .test { width: 5px; content: func(); }
    ------------------------------^
 
+Stack trace:
+#0 %s/tests/customfunctions/returnvalues.php(25): Sass\Sass->compile()
+#1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
+#2 %s/tests/customfunctions/returnvalues.php(49): testCFReturnValues()
+#3 {main}
+Previous Exception: exception 'RuntimeException' with message 'Expected a supported instance of Sass\Types\SassValue, got instance of SassFakeValue.' in %s/tests/customfunctions/returnvalues.php:25
 Stack trace:
 #0 %s/tests/customfunctions/returnvalues.php(25): Sass\Sass->compile()
 #1 %s/tests/customfunctions/returnvalues.php(45): runFunction()
@@ -176,6 +212,3 @@ Value to be returned:
     width: 5px;
     content: sassvalue;
 }
-
-
-

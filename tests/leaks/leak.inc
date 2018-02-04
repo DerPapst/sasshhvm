@@ -1,11 +1,11 @@
 <?hh
 
-function leakTest((function (): void) $fn, bool $output, bool $surpressFnOut = true): void
+function leakTest((function (): void) $fn, bool $output, int $runs = 2000, bool $surpressFnOut = true): void
 {
     $a = memory_get_usage(true);
 
     if ($surpressFnOut) ob_start();
-    for ($i = 0; $i < 2000; $i++) {
+    for ($i = 0; $i < $runs; $i++) {
         $fn();
     }
     if ($surpressFnOut) ob_end_clean();
@@ -14,7 +14,7 @@ function leakTest((function (): void) $fn, bool $output, bool $surpressFnOut = t
     $first_leak = $b - $a;
 
     if ($surpressFnOut) ob_start();
-    for ($i = 0; $i < 2000; $i++) {
+    for ($i = 0; $i < $runs; $i++) {
         $fn();
     }
     if ($surpressFnOut) ob_end_clean();
@@ -35,9 +35,9 @@ function leakTest((function (): void) $fn, bool $output, bool $surpressFnOut = t
     }
 }
 
-function runLeakTest((function (): void) $fn, bool $surpressFnOut = true): void
+function runLeakTest((function (): void) $fn, int $runs = 2000, bool $surpressFnOut = true): void
 {
-    leakTest($fn, false, $surpressFnOut);
-    leakTest($fn, false, $surpressFnOut);
-    leakTest($fn, true,  $surpressFnOut);
+    leakTest($fn, false, $runs, $surpressFnOut);
+    leakTest($fn, false, $runs, $surpressFnOut);
+    leakTest($fn, true,  $runs, $surpressFnOut);
 }

@@ -34,7 +34,6 @@ class ExceptionManager {
     void setLast(Variant);
     void resetLast();
     bool hasLast();
-    static Object createException(StaticString exceptionName, Array args);
     static Object createSassException(const String& message, const String& jsonMessage, int64_t code);
     static Object convertFatalToErrorException(FatalErrorException h);
 
