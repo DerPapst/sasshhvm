@@ -1848,6 +1848,7 @@ class SassList extends SassValue implements
 
     private Vector<SassValue> $list = Vector {};
     private string $separator = self::SEPARATOR_COMMA;
+    private bool $isBracketed = false;
 
     private bool $recursionDetection = false;
 
@@ -1903,6 +1904,39 @@ class SassList extends SassValue implements
     final public function getSeparator(): string
     {
         return $this->separator;
+    }
+
+    /**
+     * Set if this `SassList` is bracketed or not.
+     *
+     * @param $isBracketed
+     *
+     * @return - A shallow copy of the current `SassList`.
+     */
+    final public function setIsBracketed(bool $isBracketed): this
+    {
+        $this->isBracketed = $isBracketed;
+        return $this;
+    }
+
+    /**
+     * Get if this `SassList` is bracketed or not.
+     *
+     * @return - `true` if this `SassList` is bracketed, false otherwise.
+     */
+    final public function getIsBracketed(): bool
+    {
+        return $this->isBracketed;
+    }
+
+    /**
+     * Alias of `self::getIsBracketed()`.
+     *
+     * @return - `true` if this `SassList` is bracketed, false otherwise.
+     */
+    final public function isBracketed(): bool
+    {
+        return $this->getIsBracketed();
     }
 
     /**
@@ -2235,7 +2269,11 @@ class SassList extends SassValue implements
             $listStr = implode(trim($this->separator).' ', $toStr);
         }
 
-        return '('.$listStr.')';
+        if ($this->isBracketed) {
+            return '['.$listStr.']';
+        } else {
+            return '('.$listStr.')';
+        }
     }
 
     public function __debugInfo(): array
@@ -2243,6 +2281,7 @@ class SassList extends SassValue implements
         return [
             'list' => $this->list,
             'separator' => $this->separator,
+            'isBracketed' => $this->isBracketed
         ];
     }
 }

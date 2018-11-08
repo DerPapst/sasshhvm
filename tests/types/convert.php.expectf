@@ -16,7 +16,7 @@ object(Sass\Types\SassString)#1 (2) {
   ["isQuoted":"Sass\Types\SassString":private]=>
   bool(false)
 }
-object(Sass\Types\SassList)#2 (2) {
+object(Sass\Types\SassList)#2 (3) {
   ["list"]=>
   object(HH\Vector)#3 (1) {
     [0]=>
@@ -45,6 +45,8 @@ object(Sass\Types\SassList)#2 (2) {
   }
   ["separator"]=>
   string(1) ","
+  ["isBracketed"]=>
+  bool(false)
 }
 caught exception 'InvalidArgumentException' with message 'Supplied value of type object could not converted to a SassValue.' in %s/tests/types/convert.php:17
 Stack trace:

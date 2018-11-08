@@ -21,6 +21,7 @@ Full message:
 Error: Invalid CSS after " */": expected 1 selector or at-rule, was "nav"
         on line 3 of stdin
 >>  */
+
    ---^
 
 Stack trace:
@@ -48,6 +49,7 @@ Full message:
 Error: Invalid CSS after "nav {": expected "}", was "{"
         on line 1 of stdin
 >> nav { {
+
    -----^
 
 Stack trace:

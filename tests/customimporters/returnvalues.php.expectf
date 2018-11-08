@@ -68,14 +68,12 @@ Stack trace:
 Value to be returned:
     NULL
 
-Caught exception 'Sass\SassException' with message 'File to import not found or unreadable: herpderp.
-Parent style sheet: stdin' in %s/tests/customimporters/returnvalues.php:19
+Caught exception 'Sass\SassException' with message 'File to import not found or unreadable: herpderp.' in %s/tests/customimporters/returnvalues.php:19
 Source File: stdin
 Source Line: 1
 Source Column: 1
 Full message:
 Error: File to import not found or unreadable: herpderp.
-       Parent style sheet: stdin
         on line 1 of stdin
 >> @import "herpderp";
    ^
@@ -213,7 +211,7 @@ Array
 		".foo {width: 5px};"
 	],
 	"names": [],
-	"mappings": ";ACAA,AAAA,IAAI,CAAC;IAAC,KAAK,EAAE,GAAG;CAAG"
+	"mappings": ";ACAA,AAAA,IAAI,CAAC;IAAC,KAAK,EAAE,GAAG;CAAE"
 }
 )
 
@@ -271,7 +269,7 @@ Array
 		".herp {\n\tcontent: \"derp\";\n}\n"
 	],
 	"names": [],
-	"mappings": ";ACAA,AAAA,SAAS,CAAC;IAAE,MAAM,EAAE,cAAc;CAAK;;;ACAvC,AAAA,KAAK,CAAC;IACL,OAAO,EAAE,MAAM;CACf"
+	"mappings": ";ACAA,AAAA,SAAS,CAAC;IAAE,MAAM,EAAE,cAAc;CAAI;;;ACAtC,AAAA,KAAK,CAAC;IACL,OAAO,EAAE,MAAM;CACf"
 }
 )
 
@@ -311,6 +309,6 @@ Array
 		".import-vector { background: #ff0; }"
 	],
 	"names": [],
-	"mappings": ";ACAA,AAAA,cAAc,CAAC;IAAE,UAAU,EAAE,IAAI;CAAK"
+	"mappings": ";ACAA,AAAA,cAAc,CAAC;IAAE,UAAU,EAAE,IAAI;CAAI"
 }
 )

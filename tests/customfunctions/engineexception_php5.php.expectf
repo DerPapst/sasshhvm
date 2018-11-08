@@ -4,12 +4,10 @@ Source Line: 2
 Source Column: 24
 Full message:
 Error: error in callback function derp: Call to undefined function idonotexist()
-
-       Backtrace:
-       	stdin:2, in function `derp`
-       	stdin:2
-        on line 2 of stdin
+        on line 2 of stdin, in function `derp`
+        from line 2 of stdin
 >>                 $herp: derp();
+
    -----------------------^
 
 Stack trace:
@@ -23,4 +21,3 @@ Stack trace:
 #1 %s/tests/customfunctions/engineexception_php5.php(17): Sass\Sass->compile()
 #2 %s/tests/customfunctions/engineexception_php5.php(30): testCFEngineException()
 #3 {main}
-

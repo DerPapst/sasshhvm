@@ -4,12 +4,10 @@ Source Line: 3
 Source Column: 24
 Full message:
 Error: warning in callback function make-warning: I am a warning
-
-       Backtrace:
-       	stdin:3, in function `make-warning`
-       	stdin:3
-        on line 3 of stdin
+        on line 3 of stdin, in function `make-warning`
+        from line 3 of stdin
 >>                 color: make-warning();
+
    -----------------------^
 
 Stack trace:
@@ -23,16 +21,13 @@ Source Line: 3
 Source Column: 24
 Full message:
 Error: error in callback function make-error: I am an error
-
-       Backtrace:
-       	stdin:3, in function `make-error`
-       	stdin:3
-        on line 3 of stdin
+        on line 3 of stdin, in function `make-error`
+        from line 3 of stdin
 >>                 color: make-error();
+
    -----------------------^
 
 Stack trace:
 #0 %s/tests/customfunctions/sasserror.php(38): Sass\Sass->compile()
 #1 %s/tests/customfunctions/sasserror.php(48): testSassError()
 #2 {main}
-

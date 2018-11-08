@@ -46,6 +46,7 @@ const StaticString s_Type_SassValueMethod_setRGB("setRGB");
 const StaticString s_Type_SassValueMethod_setMessage("setMessage");
 const StaticString s_Type_SassValueMethod_addAll("addAll");
 const StaticString s_Type_SassValueMethod_setSeparator("setSeparator");
+const StaticString s_Type_SassValueMethod_setIsBracketed("setIsBracketed");
 const StaticString s_Type_SassValueMethod_set("set");
 const StaticString s_Type_SassValueMethod_isValid("isValid");
 
@@ -143,6 +144,7 @@ Variant SassTypesFactory::to_php_list(Sass_Value* v) {
   Object list = php_create_and_construct(s_Type_SassList_className);
 
   const Func* funcSetSeparator = list->getVMClass()->lookupMethod(s_Type_SassValueMethod_setSeparator.get());
+  const Func* funcSetIsBracketed = list->getVMClass()->lookupMethod(s_Type_SassValueMethod_setIsBracketed.get());
   const Func* funcAddAll = list->getVMClass()->lookupMethod(s_Type_SassValueMethod_addAll.get());
 
   int64_t i = 0;
@@ -155,6 +157,12 @@ Variant SassTypesFactory::to_php_list(Sass_Value* v) {
   tvDecRefGen(g_context->invokeFunc(
     funcSetSeparator,
     make_packed_array(String(SASS_COMMA == sass_list_get_separator(v) ? "," : " ")),
+    list.get()
+  ));
+
+  tvDecRefGen(g_context->invokeFunc(
+    funcSetIsBracketed,
+    make_packed_array(sass_list_get_is_bracketed(v)),
     list.get()
   ));
 
@@ -291,6 +299,7 @@ union Sass_Value* SassTypesFactory::to_sass_color(const Object& val) {
 
 union Sass_Value* SassTypesFactory::to_sass_list(const Object& val) {
   Sass_Separator sep = SASS_COMMA;
+  bool is_bracketed = val->o_get("isBracketed", true, s_Type_SassList_className).toBooleanVal();
 
   if (val->o_get("separator", true, s_Type_SassList_className).toString().equal(String(" "))) {
     sep = SASS_SPACE;
@@ -309,7 +318,7 @@ union Sass_Value* SassTypesFactory::to_sass_list(const Object& val) {
 
   Array phplist = val->o_get("list", true, s_Type_SassList_className).toArray();
 
-  union Sass_Value* sasslist = sass_make_list(phplist.size(), sep);
+  union Sass_Value* sasslist = sass_make_list(phplist.size(), sep, is_bracketed);
 
   for (ArrayIter iter(phplist); iter; ++iter) {
     sass_list_set_value(sasslist, iter.getPos(), to_sass(iter.secondRef()));

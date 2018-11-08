@@ -4,6 +4,7 @@ Test Defaults:
     isEmpty: bool(true)
     count: int(0)
     Separator === SassList::SEPARATOR_COMMA: bool(true)
+    isBacketed: bool(false)
 Empty SassList is valid: bool(true)
 Add some elements: (5px, string, rgb(100, 255, 0))
 Test methods for reading:
@@ -37,6 +38,10 @@ Separator:
     getSeparator() returns SEPARATOR_SPACE: bool(true)
     Set to invalid separator: Caught InvalidArgumentException with message "Invalid separator "-". Use SassList::SEPARATOR_COMMA or SassList::SEPARATOR_SPACE."
     Set to SassList::SEPARATOR_COMMA: (5px, rgb(100, 255, 0), "a test")
+Brackets:
+    Enable brackets: [5px, rgb(100, 255, 0), "a test"]
+    isBracketed() returns true: bool(true)
+    Disable brackets: (5px, rgb(100, 255, 0), "a test")
 Validation:
     isValid: bool(true)
     make the list invalid: (5px, rgb(100, 255, 0), "a test", (*SassList RECURSION*))

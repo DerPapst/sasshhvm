@@ -6,6 +6,7 @@ Full message:
 Error: Call to undefined function Sass\idonotexist()
         on line 2 of stdin
 >>                 @import "stuff";
+
    ------------------------^
 
 Stack trace:

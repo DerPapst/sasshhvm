@@ -1242,6 +1242,29 @@ class SassList extends SassValue implements
     final public function getSeparator(): string;
 
     /**
+     * Set if this `SassList` is bracketed or not.
+     *
+     * @param $isBracketed
+     *
+     * @return - A shallow copy of the current `SassList`.
+     */
+    final public function setIsBracketed(bool $isBracketed): this;
+
+    /**
+     * Get if this `SassList` is bracketed or not.
+     *
+     * @return - `true` if this `SassList` is bracketed, false otherwise.
+     */
+    final public function getIsBracketed(): bool;
+
+    /**
+     * Alias of `self::getIsBracketed()`.
+     *
+     * @return - `true` if this `SassList` is bracketed, false otherwise.
+     */
+    final public function isBracketed(): bool;
+
+    /**
      * Returns the first value in the current `SassList`.
      *
      * @return - The first value in the current `SassList`, or `null` if the

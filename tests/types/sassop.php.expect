@@ -188,12 +188,6 @@ add:
         test-ok: true;
     }
     .test {
-        /*! exec_op(add, #a98645, #213543) == (#a98645 + #213543) */
-        test-custom: #cabb88;
-        test-native: #cabb88;
-        test-ok: true;
-    }
-    .test {
         /*! exec_op(add, 1, "2") == (1 + "2") */
         test-custom: "12";
         test-native: "12";
@@ -205,12 +199,6 @@ sub:
         /*! exec_op(sub, 42px, 7) == (42px - 7) */
         test-custom: 35px;
         test-native: 35px;
-        test-ok: true;
-    }
-    .test {
-        /*! exec_op(sub, #a98645, #213543) == (#a98645 - #213543) */
-        test-custom: #885102;
-        test-native: #885102;
         test-ok: true;
     }
     .test {
@@ -227,12 +215,6 @@ mul:
         test-native: 294px;
         test-ok: true;
     }
-    .test {
-        /*! exec_op(mul, #310425, #021521) == (#310425 * #021521) */
-        test-custom: #6254ff;
-        test-native: #6254ff;
-        test-ok: true;
-    }
 
 div:
     .test {
@@ -242,15 +224,15 @@ div:
         test-ok: true;
     }
     .test {
-        /*! exec_op(div, #a98645, #213543) == (#a98645 / #213543) */
-        test-custom: #050301;
-        test-native: #050301;
-        test-ok: true;
-    }
-    .test {
         /*! exec_op(div, 1, "2") == (1 / "2") */
         test-custom: 1/"2";
         test-native: 1/"2";
+        test-ok: true;
+    }
+    .test {
+        /*! exec_op(div, 5px, 0) == (5px / 0) */
+        test-custom: "Infinity";
+        test-native: Infinity;
         test-ok: true;
     }
 
@@ -261,44 +243,33 @@ mod:
         test-native: 6px;
         test-ok: true;
     }
-    .test {
-        /*! exec_op(mod, #a98645, #213543) == (#a98645 % #213543) */
-        test-custom: #041c02;
-        test-native: #041c02;
-        test-ok: true;
-    }
 
 
 == Test Category Error ==
 lt:
     red < #e00
-        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: Undefined operation: "red lt #ee0000".
-        Previous RuntimeException (C:54551051) on line 88 with message: Undefined operation: "red lt #ee0000".
+        Caught Sass\SassException (C:1) on line 113 with message: error in callback function exec_op: Undefined operation: "red lt #ee0000".
+        Previous RuntimeException (C:54551051) on line 87 with message: Undefined operation: "red lt #ee0000".
 
 add:
     3px + 3em
-        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: Incompatible units: 'em' and 'px'.
-        Previous RuntimeException (C:54551051) on line 88 with message: Incompatible units: 'em' and 'px'.
+        Caught Sass\SassException (C:1) on line 113 with message: error in callback function exec_op: Incompatible units: 'em' and 'px'.
+        Previous RuntimeException (C:54551051) on line 87 with message: Incompatible units: 'em' and 'px'.
 
 sub:
     rgba(0, 0, 0, 0.4) - #185af8
-        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: Alpha channels must be equal: rgba(0, 0, 0, 0.4) + #185af8.
-        Previous RuntimeException (C:54551051) on line 88 with message: Alpha channels must be equal: rgba(0, 0, 0, 0.4) + #185af8.
+        Caught Sass\SassException (C:1) on line 113 with message: error in callback function exec_op: Alpha channels must be equal: rgba(0, 0, 0, 0.4) sub #185af8.
+        Previous RuntimeException (C:54551051) on line 87 with message: Alpha channels must be equal: rgba(0, 0, 0, 0.4) sub #185af8.
 
 mul:
     1 * "2"
-        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: Undefined operation: "1 times "2"".
-        Previous RuntimeException (C:54551051) on line 88 with message: Undefined operation: "1 times "2"".
-
-div:
-    #a98645 / #213500
-        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: divided by 0
-        Previous RuntimeException (C:54551051) on line 88 with message: divided by 0
+        Caught Sass\SassException (C:1) on line 113 with message: error in callback function exec_op: Undefined operation: "1 times "2"".
+        Previous RuntimeException (C:54551051) on line 87 with message: Undefined operation: "1 times "2"".
 
 mod:
     1 % "2"
-        Caught Sass\SassException (C:1) on line 114 with message: error in callback function exec_op: Undefined operation: "1 mod "2"".
-        Previous RuntimeException (C:54551051) on line 88 with message: Undefined operation: "1 mod "2"".
+        Caught Sass\SassException (C:1) on line 113 with message: error in callback function exec_op: Undefined operation: "1 mod "2"".
+        Previous RuntimeException (C:54551051) on line 87 with message: Undefined operation: "1 mod "2"".
 
 
 == Test Category Inconsistencies ==
@@ -312,12 +283,11 @@ add:
 
 
 Test to convert SassFakeValue to native sass_value:
-    Caught RuntimeException (C:54551062) on line 165 with message: Expected a supported instance of Sass\Types\SassValue, got instance of Sass\SassFakeValue.
+    Caught RuntimeException (C:54551062) on line 164 with message: Expected a supported instance of Sass\Types\SassValue, got instance of Sass\SassFakeValue.
 
 SassList equals same instance:
 bool(true)
-    Caught RuntimeException (C:54551060) on line 171 with message: SassList and SassMap do not support circular references.
+    Caught RuntimeException (C:54551060) on line 170 with message: SassList and SassMap do not support circular references.
 
 SassList < SassList:
-    Caught RuntimeException (C:54551051) on line 176 with message: Undefined operation: "4px lt (5px,)".
-
+    Caught RuntimeException (C:54551051) on line 175 with message: Undefined operation: "4px lt (5px,)".

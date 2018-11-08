@@ -13,6 +13,8 @@ function testSassList(): void {
     var_dump($list->count());
     echo "    Separator === SassList::SEPARATOR_COMMA: ";
     var_dump($list->getSeparator() === SassList::SEPARATOR_COMMA);
+    echo "    isBacketed: ";
+    var_dump($list->isBracketed());
     echo "Empty SassList is valid: ";
     var_dump($list->isValid());
     echo "Add some elements: ";
@@ -90,6 +92,12 @@ function testSassList(): void {
         echo 'Caught '.get_class($e).' with message "'.$e->getMessage()."\"\n";
     }
     echo "    Set to SassList::SEPARATOR_COMMA: ".$list->setSeparator(SassList::SEPARATOR_COMMA)."\n";
+
+    echo "Brackets:\n";
+    echo "    Enable brackets: ".$list->setIsBracketed(true)."\n";
+    echo "    isBracketed() returns true: ";
+    var_dump($list->isBracketed() === true);
+    echo "    Disable brackets: ".$list->setIsBracketed(false)."\n";
 
     echo "Validation:\n";
     echo "    isValid: ";

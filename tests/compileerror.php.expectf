@@ -6,6 +6,7 @@ Full message:
 Error: property "asd" must be followed by a ':'
         on line 4 of stdin
 >>         asd
+
    --------^
 
 Stack trace:
@@ -16,9 +17,10 @@ Stack trace:
 string(5) "stdin"
 int(4)
 int(9)
-string(103) "Error: property "asd" must be followed by a ':'
+string(104) "Error: property "asd" must be followed by a ':'
         on line 4 of stdin
 >>         asd
+
    --------^
 "
 
@@ -31,6 +33,7 @@ Full message:
 Error: Undefined variable: "$iDoNotExist".
         on line 3 of tests/resources/scss/more/borked.scss
 >> 	color: $iDoNotExist;
+
    --------^
 
 Stack trace:
@@ -38,4 +41,3 @@ Stack trace:
 #1 %s/tests/compileerror.php(27): Sass\Sass->compileFile()
 #2 %s/tests/compileerror.php(34): Sass\testCompileErrorFile()
 #3 {main}
-
